@@ -60,16 +60,28 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="FbData.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameActivity.cs" />
+    <Compile Include="GameAdapter.cs" />
+    <Compile Include="Games.cs" />
     <Compile Include="GamesActivity.cs" />
+    <Compile Include="GameTimer.cs" />
+    <Compile Include="General.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="PlayerStats.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsActivity.cs" />
     <Compile Include="SignUpActivity.cs" />
+    <Compile Include="SpData.cs" />
     <Compile Include="StatisticActivity.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="google-services.json" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
