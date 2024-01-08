@@ -60,9 +60,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameActivity.cs" />
+    <Compile Include="GamesActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsActivity.cs" />
+    <Compile Include="SignUpActivity.cs" />
+    <Compile Include="StatisticActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -99,7 +104,22 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.8.116</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.5" />
+    <PackageReference Include="Xamarin.Firebase.Auth">
+      <Version>122.2.0.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Firestore">
+      <Version>124.9.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Storage">
+      <Version>120.3.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.0.0.1" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
   </ItemGroup>
