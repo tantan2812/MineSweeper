@@ -60,6 +60,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseCell.cs" />
+    <Compile Include="Cell.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FbData.cs" />
     <Compile Include="Game.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="GamesActivity.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="General.cs" />
+    <Compile Include="Generator.cs" />
+    <Compile Include="Grid.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerStats.cs" />
