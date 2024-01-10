@@ -68,7 +68,7 @@ namespace MineSweeper
                  intent.PutExtra(General.KEY_HOST_NAME, games[position].HostName);
                 game = new Game(this, games[position].HostName, games[position].Id)
                 {
-                    GeustName = name
+                    GuestName = name
                 };
             }
             else

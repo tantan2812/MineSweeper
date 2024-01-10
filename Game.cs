@@ -12,7 +12,7 @@ namespace MineSweeper
         private FbData fbd;
         public string Id { get; set; }
         public string HostName { get; set; }
-        public string GeustName { get; set; }
+        public string GuestName { get; set; }
         [JsonIgnore]
         public DateTime CreateTime { get; set; }
         public int Players { get; set; }
@@ -57,6 +57,7 @@ namespace MineSweeper
 
         public Game(Context context, string hostName)
         {
+            InitGame(hostName, Player.PlayerType.Host);
             Context = context;
             HashMap hm = HashMap;
             fbd = new FbData();
@@ -69,6 +70,8 @@ namespace MineSweeper
 
         public Game(Context context, string hostName, string id)
         {
+            Id = id;
+            InitGame(hostName, Player.PlayerType.Host);
             Context = context;
             fbd = new FbData();
             tskInitGameTask = fbd.IncrementField(General.GAMES_COLLECTION, id, General.FIELD_PLAYERS, 1);

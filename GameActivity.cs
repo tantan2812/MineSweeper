@@ -46,7 +46,14 @@ namespace MineSweeper
                 msg = "Game Created";
             else
                 msg = task.Exception.Message;
-            Toast.MakeText(this, msg, ToastLength.Long).Show();
+            if(msg!=string.Empty)
+                Toast.MakeText(this, msg, ToastLength.Long).Show();
+        }
+
+        protected override void OnPause()
+        {
+            game.Exit();
+            base.OnPause();
         }
     }
 }

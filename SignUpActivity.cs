@@ -14,7 +14,7 @@ using System.Text;
 
 namespace MineSweeper
 {
-    [Activity(Label = "SignUpActivity", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", MainLauncher = true)]
     public class SignUpActivity : AppCompatActivity,View.IOnClickListener, IOnCompleteListener
     {
         Button btnRegister, btnSignIn;
