@@ -17,15 +17,24 @@ namespace MineSweeper
         public float Y { get; set; }
         public bool IsRevealed { get; set; }
         public bool IsEmpty { get; set; }
-        public Square() 
+        public bool IsFlagged { get; set; }
+        public Square(float X, float Y)
         {
             IsRevealed = false;
             IsEmpty = true;
+            IsFlagged = false;
         }
+        public Square() { }
 
         public void Reveal() 
         {
             IsRevealed = true;
         }
+
+        public void Flag()
+        {
+            IsFlagged=true;
+        }
+
     }
 }

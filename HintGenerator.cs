@@ -11,17 +11,12 @@ using System.Text;
 
 namespace MineSweeper
 {
-    internal class Mine:Square
+    internal class HintGenerator
     {
-        public bool IsExploded { get; set; }
-        public Mine(float X, float Y) : base(X, Y)
+        public Square[,] PlaceValues(Square[,] squares)
         {
-            IsExploded = false;
-        }
-
-        public void HasExploded()
-        {
-            IsExploded=true;
+            Square[,] dArr = squares;
+            return dArr;
         }
     }
 }

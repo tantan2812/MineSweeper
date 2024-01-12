@@ -16,5 +16,11 @@ namespace MineSweeper
         public int value { get; set; }
         public int NeighborMinesCount { get; set; }
 
+        public NumberTile(float X, float Y) : base(X, Y)
+        {
+
+        }
+
+      
     }
 }
