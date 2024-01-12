@@ -13,7 +13,7 @@ namespace MineSweeper
 {
     internal class NumberTile:Square
     {
-        public int numOnTile { get; set; }
+        public int value { get; set; }
         public int NeighborMinesCount { get; set; }
 
     }

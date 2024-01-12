@@ -15,6 +15,7 @@ namespace MineSweeper
 {
     internal class Shapes
     {
+
         public Board GameBoard { get; set; }
         private Score score;
 

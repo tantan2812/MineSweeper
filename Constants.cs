@@ -16,5 +16,8 @@ namespace MineSweeper
         public const int GAME_REUEST = 1;
         public const string SCORE_KEY = "score";
         public const int TEXT_SIZE = 100;
+        public const int NUMBER_OF_MINES= 10;
+        public const int NUMBER_OF_WIDTH= 10;
+        public const int NUMBER_OF_HEIGHT= 10;
     }
 }

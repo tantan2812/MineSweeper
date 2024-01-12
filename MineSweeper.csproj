@@ -73,6 +73,7 @@
     <Compile Include="General.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Mine.cs" />
+    <Compile Include="MineGenerator.cs" />
     <Compile Include="NumberTile.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerStats.cs" />
