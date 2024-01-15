@@ -28,13 +28,12 @@ namespace MineSweeper
         {
             score = new Score(screenWidth, screenHight, Color.Blue, Constants.TEXT_SIZE);
             GameBoard= new Board(screenWidth, screenHight, Color.Black);
+            GameBoard.GenerateFullBoard();
         }
 
         internal void DrawShapes(Canvas canvas)
         {
             score.Draw(canvas);
-            /* foreach (Board board in GameBoard)
-                 board.Draw(canvas);*/
             GameBoard.Draw(canvas);
 
         }

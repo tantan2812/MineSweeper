@@ -15,8 +15,7 @@ namespace MineSweeper
     internal class Board:Shape
     {
         public Square[,] squares {  get; set; }
-        public MineGenerator MineGenerator { get; set; }
-        public HintGenerator HintGenerator { get; set; }
+        public Generator Generator { get; set; }
         public bool IsRevealed { get; private set; }
 
         public Board(float x, float y, Color color) : base(x,y,color)
@@ -27,39 +26,26 @@ namespace MineSweeper
             squares= new Square[Constants.NUMBER_OF_WIDTH, Constants.NUMBER_OF_HEIGHT];
             GenerateSquares();
             IsRevealed = false;
+            Generator =new Generator(this);
         }
 
         public void GenerateSquares()
         {
             for (int i = 0; i < Constants.NUMBER_OF_WIDTH; i++)
-            {
                 for (int j = 0; j < Constants.NUMBER_OF_HEIGHT; j++)
-                {
-                    squares[i, j] = new Square(i,j);
-                }
-            }
+                    squares[i, j] = new Square(i,j);               
         }
 
-        public void InsertMines()
+        public void GenerateFullBoard()
         {
-            squares = MineGenerator.PlaceMines(squares);
-        }
-
-        public void Insertvalues()
-        {
-            squares=HintGenerator.PlaceValues(squares);
+            squares = Generator.InsertMinesAndHints();
         }
 
         public void RevealAllSquares()
         {
             for (int i = 0; i < Constants.NUMBER_OF_WIDTH; i++)
-            {
                 for (int j = 0; j < Constants.NUMBER_OF_HEIGHT; j++)
-                {
                     squares[i, j].Reveal();
-                }
-            }
-
             IsRevealed = true;
         }
 
@@ -73,12 +59,8 @@ namespace MineSweeper
         {
             Square sq=new Square();
             for (int i = 0; i < x; i++)
-            {
                 for (int j = 0; j < y; j++)
-                {
                     sq=squares[i, j];
-                }
-            }
             return sq;
         }
 
@@ -86,7 +68,7 @@ namespace MineSweeper
         {
             int squareX = (int)square.X;
             int squareY = (int)square.Y;
-            var neighbours = GetNeighboursWithinThreeByThreeAreaToList(squareX, squareY);
+            IEnumerable<Square> neighbours = GetNeighboursWithinThreeByThreeAreaToList(squareX, squareY);
             return neighbours;
         }
 

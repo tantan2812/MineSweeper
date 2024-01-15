@@ -18,6 +18,7 @@ namespace MineSweeper
         public bool IsRevealed { get; set; }
         public bool IsEmpty { get; set; }
         public bool IsFlagged { get; set; }
+
         public Square(float X, float Y)
         {
             IsRevealed = false;

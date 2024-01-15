@@ -14,6 +14,7 @@ namespace MineSweeper
     internal class Mine:Square
     {
         public bool IsExploded { get; set; }
+        public bool IsCorner { get; set; }
         public Mine(float X, float Y) : base(X, Y)
         {
             IsExploded = false;

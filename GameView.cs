@@ -20,6 +20,7 @@ namespace MineSweeper
         private Paint paint;
         private Thread gameThread;
         private ThreadStart ts;
+        GestureDetector gestureDetector;
         public GameView(Context context, int screenWidth, int screenHight) : base(context)
         {
             ts = new ThreadStart(Run);
@@ -29,6 +30,7 @@ namespace MineSweeper
             ts = new ThreadStart(Run);
             gameThread = new Thread(ts);
             gameThread.Start();
+            GestureDetector gestureDetector = new GestureDetector(context, new GestureListener());
         }
 
         public void Run()
@@ -63,10 +65,7 @@ namespace MineSweeper
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            return true;
+            return gestureDetector.OnTouchEvent(e);
         }
-
-
-
     }
 }
