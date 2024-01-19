@@ -24,8 +24,8 @@ namespace MineSweeper
                 int y = rnd.Next(Constants.NUMBER_OF_HEIGHT);
                 if (IsMineAt(squares, x, y) == false)
                 {
-                    squares[x, y] = new Mine(x,y);
-                    squares[x, y].IsEmpty = false;
+                    squares[x, y] = new Mine(Board.Context,x,y);
+                    squares[x, y].SetEmpty();
                     mines--;    
                 }
             }
@@ -33,51 +33,23 @@ namespace MineSweeper
             return squares;
         }
 
-        /*private Square[,] calculateNeigbours(Square[,] squares)
-        {
-            IEnumerable<Square> neighbours = null;
-            for (int x = 0; x < Constants.NUMBER_OF_WIDTH; x++)
-            {
-                for (int y = 0; y < Constants.NUMBER_OF_HEIGHT; y++)
-                {
-                    if (squares[x, y] is Mine)
-                        neighbours = Board.GetNeighbours(squares[x,y]);
-                }
-            }
-            squares = PutHintInBoard(squares, neighbours);
-            return squares;
-        }
-
-        private Square[,] PutHintInBoard(Square[,] squares, IEnumerable<Square> neighbours)
-        {
-            for (int i = 0; i < length; i++)
-            {
-                for (int j = 0; j < length; j++)
-                {
-                    for (int h = 0; h < neighbours.Count(); h++)
-                    {
-
-                    }
-                }
-            }
-        }*/
-
-        private static Square[,] CalculateNeigbours(Square[,] squares)
+        private Square[,] CalculateNeigbours(Square[,] squares)
         {
             NumberTile value;
             for (int x = 0; x < Constants.NUMBER_OF_WIDTH; x++)
             {
                 for (int y = 0; y < Constants.NUMBER_OF_HEIGHT; y++)
-                {
                     if (IsMineAt(squares, x, y) == false)
                     {
-                        value=new NumberTile(x, y);
+                        value=new NumberTile(Board.GetContext(),x, y);
                         value.NeighborMinesCount = GetNeighbourNumber(squares, x, y);
                         value.Hint=value.NeighborMinesCount;
-                        if(value.Hint!=0)
+                        if (value.Hint != 0)
+                        {
                             squares[x, y]=value;
+                            squares[x, y].SetEmpty();
+                        }
                     }
-                }
             }
             return squares;
         }

@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Graphics;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -11,30 +12,59 @@ using System.Text;
 
 namespace MineSweeper
 {
-    internal class Square
+    internal class Square: View
     {
-        public float X { get; set; }
-        public float Y { get; set; }
+        Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
+        Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
+        Bitmap UnRevealedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.button);
+
         public bool IsRevealed { get; set; }
         public bool IsEmpty { get; set; }
         public bool IsFlagged { get; set; }
 
-        public Square(float X, float Y)
+        public Square(Context context, float X, float Y):base(context)
         {
             IsRevealed = false;
             IsEmpty = true;
             IsFlagged = false;
         }
-        public Square() { }
+        public Square(Context context):base(context) { }
 
-        public void Reveal() 
+        public void Revealed()
         {
             IsRevealed = true;
+            Invalidate();
+        }
+        public void SetEmpty()
+        {
+            IsEmpty = false;
+            Invalidate();
+        }
+        public void Flagged()
+        {
+            IsFlagged = true;
+            Invalidate();
+        } 
+        public void UnFlagged()
+        {
+            IsFlagged = false;
+            Invalidate();
         }
 
-        public void Flag()
+        protected override void OnDraw(Canvas canvas)
         {
-            IsFlagged=true;
+            if (IsEmpty==true)
+                canvas.DrawBitmap(EmptyCell, 0, 0, null);
+            if(IsRevealed==false)
+                canvas.DrawBitmap(UnRevealedCell, 0, 0, null);
+            if(IsFlagged==true)
+                canvas.DrawBitmap(FlaggedCell, 0, 0, null);
+            base.OnDraw(canvas);
+        }
+
+        protected override void OnMeasure(int widthMeasure, int heightMeasure)
+        {
+            base.OnMeasure(widthMeasure, heightMeasure);
         }
 
     }

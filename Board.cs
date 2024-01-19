@@ -17,7 +17,20 @@ namespace MineSweeper
         public Square[,] squares {  get; set; }
         public Generator Generator { get; set; }
         public bool IsRevealed { get; private set; }
+        public Context Context { get; set; }
 
+        public Board(Context Context, float x, float y, Color color) : base(x,y,color)
+        {
+            this.Context = Context;
+            ScreenWidth = x;
+            ScreenHight = y;
+            this.ShapeColor = color;
+            squares= new Square[Constants.NUMBER_OF_WIDTH, Constants.NUMBER_OF_HEIGHT];
+            GenerateSquares();
+            IsRevealed = false;
+            Generator =new Generator(this);
+        }
+        
         public Board(float x, float y, Color color) : base(x,y,color)
         {
             ScreenWidth = x;
@@ -29,11 +42,16 @@ namespace MineSweeper
             Generator =new Generator(this);
         }
 
+        public Context GetContext()
+        {
+            return this.Context;
+        }
+
         public void GenerateSquares()
         {
             for (int i = 0; i < Constants.NUMBER_OF_WIDTH; i++)
                 for (int j = 0; j < Constants.NUMBER_OF_HEIGHT; j++)
-                    squares[i, j] = new Square(i,j);               
+                    squares[i, j] = new Square(Context, i,j);
         }
 
         public void GenerateFullBoard()
@@ -45,53 +63,23 @@ namespace MineSweeper
         {
             for (int i = 0; i < Constants.NUMBER_OF_WIDTH; i++)
                 for (int j = 0; j < Constants.NUMBER_OF_HEIGHT; j++)
-                    squares[i, j].Reveal();
+                    squares[i, j].Revealed();
             IsRevealed = true;
         }
 
         public void RevealOneSquare(int x,int y)
         {
             Square square = GetSquare(x,y);
-            square.IsRevealed = true;
+            square.Revealed();
         }
 
         public Square GetSquare(int x, int y)
         {
-            Square sq=new Square();
+            Square sq=new Square(Context);
             for (int i = 0; i < x; i++)
                 for (int j = 0; j < y; j++)
                     sq=squares[i, j];
             return sq;
-        }
-
-        public IEnumerable<Square> GetNeighbours(Square square)
-        {
-            int squareX = (int)square.X;
-            int squareY = (int)square.Y;
-            IEnumerable<Square> neighbours = GetNeighboursWithinThreeByThreeAreaToList(squareX, squareY);
-            return neighbours;
-        }
-
-        private IEnumerable<Square> GetNeighboursWithinThreeByThreeAreaToList(int centerX, int centerY)
-        {
-            List<Square> neighbours = new List<Square>();
-            for (int deltaX = -1; deltaX <= 1; deltaX++)
-            {
-                for (int deltaY = -1; deltaY <= 1; deltaY++)
-                {
-                    if (deltaX == 0 && deltaY == 0) continue;
-                    int neighbourXValue = centerX + deltaX;
-                    int neighbourYValue = centerY + deltaY;
-
-                    if (HasLocation(neighbourXValue, neighbourYValue))
-                    {
-                        Square neighbour = GetSquare(neighbourXValue, neighbourYValue);
-                        neighbours.Add(neighbour);
-                    }
-                }
-            }
-
-            return neighbours;
         }
 
         public bool HasLocation(int X,int Y)
