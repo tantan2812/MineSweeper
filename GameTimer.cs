@@ -32,8 +32,8 @@ namespace MineSweeper
         public override void OnTick(long timeLeftMilisec)
         {
             TimeSpan ts = new TimeSpan(10000 * timeLeftMilisec);
-            TextView txtTime = activity.FindViewById<TextView>(Resource.Id.tvTime);
-            txtTime.Text = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+            TextView tvTimer = activity.FindViewById<TextView>(Resource.Id.tvTimer);
+            tvTimer.Text = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
         }
 
         private void OnPositiveButtonClick(object sender, DialogClickEventArgs e)

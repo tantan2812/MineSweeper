@@ -56,5 +56,7 @@
     <string name="created">User created</string>
     <string name="sending">Sending verification email</string>
     <string name="fill">Please fill up all fields and register</string>
+    <string name="time">time:</string>
+    <string name="score">score:</string>
 
 </resources>

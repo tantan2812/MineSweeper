@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
+    <Compile Include="BoardAdapter.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FbData.cs" />
     <Compile Include="Game.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="Games.cs" />
     <Compile Include="GamesActivity.cs" />
     <Compile Include="GameTimer.cs" />
-    <Compile Include="GameView.cs" />
     <Compile Include="General.cs" />
     <Compile Include="GestureListener.cs" />
     <Compile Include="MainActivity.cs" />
@@ -81,10 +81,7 @@
     <Compile Include="PlayerStats.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Score.cs" />
     <Compile Include="SettingsActivity.cs" />
-    <Compile Include="Shape.cs" />
-    <Compile Include="Shapes.cs" />
     <Compile Include="SignUpActivity.cs" />
     <Compile Include="SpData.cs" />
     <Compile Include="Square.cs" />
@@ -123,7 +120,11 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_foreground.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher_round.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout_board.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>

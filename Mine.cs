@@ -28,6 +28,7 @@ namespace MineSweeper
         public void HasExploded()
         {
             IsExploded=true;
+            Invalidate();
         }
 
         protected override void OnDraw(Canvas canvas)

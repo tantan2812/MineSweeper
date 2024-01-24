@@ -8,13 +8,36 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:textSize="@dimen/text_size"/>
+            android:textSize="@dimen/text_size"
+            android:layout_weight="1"
+            android:text="@string/time"/>
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size"
+            android:layout_weight="1"
+            android:text=""/>
         <TextView
             android:id="@+id/tvScore"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size"
+            android:layout_weight="1"
+            android:text="@string/score"/>
+        <TextView
+            android:id="@+id/tvScoreNow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_size"
+            android:layout_weight="1"
+            android:text=""/>
     </LinearLayout>
+    <GridView
+        android:id="@+id/gvBoard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </LinearLayout>

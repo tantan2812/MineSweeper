@@ -12,31 +12,45 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace MineSweeper
 {
     [Activity(Label = "GameActivity")]
     public class GameActivity : AppCompatActivity, IOnCompleteListener
     {
+        TextView tvTime, tvScore;
+        TextView tvTimer, tvScoreNow;
+        GridView gvBoard;
+        GameTimer gameTimer;
         private Game game;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SupportActionBar.Hide();
             InitObjects();
-            SetContentView(game.GameView);
+            InitViews();
+
+            SetContentView(Resource.Layout.activity_game);
+        }
+
+        private void InitViews()
+        {
+            tvTime = FindViewById<TextView>(Resource.Id.tvTime);
+            tvScore = FindViewById<TextView>(Resource.Id.tvScore);
+            tvTimer = FindViewById<TextView>(Resource.Id.tvTimer);
+            tvScoreNow = FindViewById<TextView>(Resource.Id.tvScoreNow);
+            gvBoard = FindViewById<GridView>(Resource.Id.gvBoard);
+            gvBoard.Adapter = game.MineSweeperView.Board.Adapter;
         }
 
         private void InitObjects()
         {
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON));
             game.Context = this;
-            Point screenSize = new Point();
-#pragma warning disable CS0618 // Type or member is obsolete
-            WindowManager.DefaultDisplay.GetSize(screenSize);
-#pragma warning restore CS0618 // Type or member is obsolete
-            game.screenSize = screenSize;
-            game.GameView = new GameView(game.Context, game.screenSize.X, game.screenSize.Y);
+            game.MineSweeperView = new MineSweeperView(game.Context);
+            GameTimer cd = new GameTimer(300000, 1000, this);
+            cd.Start();
         }
 
         public void OnComplete(Task task)

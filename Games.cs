@@ -42,7 +42,7 @@ namespace MineSweeper
                 game = new Game
                 {
                     Id = document.Id,
-                    HostName = document.GetString(General.FIELD_HOST_NAME),// לא רואים ברשימת משחקים
+                    HostName = document.GetString(General.FIELD_HOST_NAME),
                     CreateTime = fbd.FirestoreTimestampToDateTime(document.GetTimestamp(General.FIELD_CREATE_TIME))
                 };
                 Adapter.AddGame(game);

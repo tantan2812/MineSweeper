@@ -31,6 +31,12 @@ namespace MineSweeper
             NeighborMinesCount = 0;
         }
 
+        public void SetHint(int value)
+        {
+            Hint = value;
+            Invalidate();
+        }
+
         protected override void OnDraw(Canvas canvas)
         {
             if (Hint == 1)

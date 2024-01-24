@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Xamarin.Essentials;
 
 namespace MineSweeper
 {
@@ -17,22 +18,27 @@ namespace MineSweeper
         GestureDetector gestureDetector;
         public Board Board { get; set; }
         public Square[,] Squares { get; set; }
-        public MineSweeperView(Context context, int screenWidth, int screenHight) : base(context)
+
+        public MineSweeperView(Context context) : base(context)
         {
-            Board= new Board(context, screenWidth, screenHight, Color.Green);
-            Board.GenerateSquares();
+            Board = new Board(context);
+            Board.GenerateFullBoard();
+            Board.AddCellsToAdapter();
             Squares = Board.squares;
             GestureDetector gestureDetector = new GestureDetector(context, new GestureListener());
-        }
-
-        public void Run()
-        {
-
         }
 
         protected override void OnDraw(Canvas canvas)
         {
             base.OnDraw(canvas);
+            canvas.DrawColor(Color.Aqua);
+            for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
+            {
+                for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
+                {
+                    Squares[i, j].Draw(canvas);
+                }
+            }
         }
 
         protected override void OnMeasure(int widthMeasure, int heightMeasure)

@@ -23,7 +23,7 @@ namespace MineSweeper
         [JsonIgnore]
         public Context Context;
         [JsonIgnore]
-        public GameView GameView { get; set; }
+        public MineSweeperView MineSweeperView { get; set;}
         [JsonIgnore]
         public Task tskInitGameTask { get; }
         private HashMap HashMap
