@@ -13,7 +13,7 @@ using System.Text;
 
 namespace MineSweeper
 {
-    internal class Square: View
+    internal class Square: View, View.IOnClickListener,View.IOnLongClickListener
     {
         Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
         Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
@@ -25,6 +25,9 @@ namespace MineSweeper
 
         private readonly float length, height;
 
+        private int x, y;
+        private int position;
+
         public Square(Context context, float X, float Y):base(context)
         {
             IsRevealed = false;
@@ -33,7 +36,11 @@ namespace MineSweeper
             length = Constants.SIZE_OF_CELL_WIDTH;
             height = Constants.SIZE_OF_CELL_HEIGHT;
         }
-        public Square(Context context):base(context) { }
+
+        public Square(Context context) : base(context)
+        {
+
+        }
 
         public void Revealed()
         {
@@ -56,7 +63,7 @@ namespace MineSweeper
             Invalidate();
         }
 
-        public override void Draw(Canvas canvas)
+        protected override void OnDraw(Canvas canvas)
         {
             if (IsEmpty == true)
                 canvas.DrawBitmap(EmptyCell, 0, 0, null);
@@ -64,7 +71,7 @@ namespace MineSweeper
                 canvas.DrawBitmap(UnRevealedCell, 0, 0, null);
             if (IsFlagged == true)
                 canvas.DrawBitmap(FlaggedCell, 0, 0, null);
-            base.Draw(canvas);
+            base.OnDraw(canvas);
         }
 
         protected override void OnMeasure(int widthMeasure, int heightMeasure)
@@ -77,5 +84,51 @@ namespace MineSweeper
             return x >= GetX() && y >= GetY() && x <= GetX() + length & y <= GetY() + height;
         }
 
+        public int getXPos()
+        {
+            return x;
+        }
+
+        public int getYPos()
+        {
+            return y;
+        }
+
+        public int getPosition()
+        {
+            return position;
+        }
+
+        public void setPosition(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+            this.position = y * GameEngine.WIDTH + x;
+            Invalidate();
+        }
+
+        public void OnClick(View v)
+        {
+            if(IsEmpty==false)
+            {
+                if (this is Mine)
+                {
+
+                }
+                else
+                {
+                    Revealed();
+                }
+            }
+        }
+
+        public bool OnLongClick(View v)
+        {
+            if (IsFlagged)
+                UnFlagged();
+            else
+                Flagged();
+            return true;
+        }
     }
 }

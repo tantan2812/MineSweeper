@@ -29,6 +29,7 @@ namespace MineSweeper
             IsRevealed = false;
             Generator =new Generator(this);
             Adapter=new BoardAdapter(Context);
+            
         }
         
         public Context GetContext()
