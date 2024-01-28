@@ -20,7 +20,7 @@ namespace MineSweeper
 
         public bool IsExploded { get; set; }
         public bool IsCorner { get; set; }
-        public Mine(Context context, float X, float Y) : base(context, X, Y)
+        public Mine(Context context, int X, int Y) : base(context, X, Y)
         {
             IsExploded = false;
         }

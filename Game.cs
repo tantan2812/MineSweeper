@@ -19,11 +19,11 @@ namespace MineSweeper
         public Player.PlayerType CurrentPlayer { get; set; }
         public Player Player { get; set; }
         [JsonIgnore]
-        public Point screenSize { get; set; }
-        [JsonIgnore]
         public Context Context;
         [JsonIgnore]
         public MineSweeperView MineSweeperView { get; set;}
+        [JsonIgnore]
+        public GameEngine GameEngine { get; set;}
         [JsonIgnore]
         public Task tskInitGameTask { get; }
         private HashMap HashMap

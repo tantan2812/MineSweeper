@@ -44,9 +44,17 @@ namespace MineSweeper
                     squares[i, j] = new Square(Context, i,j);
         }
 
+        private void InvalidateSquares()
+        {
+            for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
+                for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
+                    squares[i, j].Invalidate();
+        }
+
         public void GenerateFullBoard()
         {
             squares = Generator.InsertMinesAndHints();
+            InvalidateSquares();
         }
 
         public void AddCellsToAdapter()

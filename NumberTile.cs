@@ -26,7 +26,7 @@ namespace MineSweeper
         public int Hint { get; set; }
         public int NeighborMinesCount { get; set; }
 
-        public NumberTile(Context context, float X, float Y) : base(context, X, Y)
+        public NumberTile(Context context, int X, int Y) : base(context, X, Y)
         {
             NeighborMinesCount = 0;
         }

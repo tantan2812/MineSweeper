@@ -1,16 +1,6 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Print;
-using Android.Runtime;
-using Android.Telecom;
-using Android.Util;
-using Android.Views;
+﻿using Android.Content;
 using Android.Widget;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MineSweeper
 {
@@ -44,8 +34,8 @@ namespace MineSweeper
             int x = position % WIDTH;
             int y = position / WIDTH;
 
-           // return Board.GetSquare(x,y);
-            return Board.squares[x, y];
+            return Board.GetSquare(x,y);
+            //return Board.squares[x, y];
 
         }
 
@@ -53,6 +43,36 @@ namespace MineSweeper
         {
             // return Board.GetSquare(x,y);
             return Board.squares[x,y];
+        }
+
+        private bool checkEnd()
+        {
+            int bombNotFound = BOMB_NUMBER;
+            int notRevealed = WIDTH * HEIGHT;
+            for (int x = 0; x < WIDTH; x++)
+                for (int y = 0; y < HEIGHT; y++)
+                {
+                    if (getCellAt(x, y).IsRevealed || getCellAt(x, y).IsFlagged)
+                        notRevealed--;
+                    if (getCellAt(x, y).IsFlagged && getCellAt(x, y) is Mine)
+                        bombNotFound--;
+                }
+
+            if (bombNotFound == 0 && notRevealed == 0)
+                Toast.MakeText(context, "Game won", ToastLength.Long).Show();
+            return false;
+        }
+
+        internal void Click(int x, int y)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Flag(int x, int y)
+        {
+            bool isFlagged = getCellAt(x, y).IsFlagged;
+            getCellAt(x, y).SetFlagged(!isFlagged);
+            getCellAt(x, y).Invalidate();
         }
     }
 }

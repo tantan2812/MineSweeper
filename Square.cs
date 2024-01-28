@@ -1,15 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.Hardware.Lights;
-using Android.OS;
-using Android.Runtime;
 using Android.Views;
-using Android.Widget;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MineSweeper
 {
@@ -23,18 +15,23 @@ namespace MineSweeper
         public bool IsEmpty { get; set; }
         public bool IsFlagged { get; set; }
 
-        private readonly float length, height;
+        //private readonly float length, height;
 
         private int x, y;
         private int position;
 
-        public Square(Context context, float X, float Y):base(context)
+        public Square(Context context, int X, int Y):base(context)
         {
+            x = X;
+            y = Y;
             IsRevealed = false;
             IsEmpty = true;
             IsFlagged = false;
-            length = Constants.SIZE_OF_CELL_WIDTH;
-            height = Constants.SIZE_OF_CELL_HEIGHT;
+            /*length = Constants.SIZE_OF_CELL_WIDTH;
+            height = Constants.SIZE_OF_CELL_HEIGHT;*/
+            SetPosition(x, y);
+            SetOnClickListener(this);
+            SetOnLongClickListener(this);
         }
 
         public Square(Context context) : base(context)
@@ -63,6 +60,11 @@ namespace MineSweeper
             Invalidate();
         }
 
+        public void SetFlagged(bool flagged)
+        {
+            IsFlagged = flagged;
+        }
+
         protected override void OnDraw(Canvas canvas)
         {
             if (IsEmpty == true)
@@ -79,27 +81,27 @@ namespace MineSweeper
             base.OnMeasure(widthMeasure, heightMeasure);
         }
 
-        public bool Touched(float x, float y)
+       /* public bool Touched(float x, float y)
         {
             return x >= GetX() && y >= GetY() && x <= GetX() + length & y <= GetY() + height;
-        }
+        }*/
 
-        public int getXPos()
+        public int GetXPos()
         {
             return x;
         }
 
-        public int getYPos()
+        public int GetYPos()
         {
             return y;
         }
 
-        public int getPosition()
+        public int GetPosition()
         {
             return position;
         }
 
-        public void setPosition(int x, int y)
+        public void SetPosition(int x, int y)
         {
             this.x = x;
             this.y = y;
@@ -109,25 +111,28 @@ namespace MineSweeper
 
         public void OnClick(View v)
         {
-            if(IsEmpty==false)
-            {
-                if (this is Mine)
-                {
+            /* if(IsEmpty==false)
+             {
+                 if (this is Mine)
+                 {
 
-                }
-                else
-                {
-                    Revealed();
-                }
-            }
+                 }
+                 else
+                 {
+                     Revealed();
+                 }
+             }*/
+            GameEngine.getInstance().Click(GetXPos(), GetYPos());
         }
 
         public bool OnLongClick(View v)
         {
-            if (IsFlagged)
+            /*if (IsFlagged)
                 UnFlagged();
             else
                 Flagged();
+            return true;*/
+            GameEngine.getInstance().Flag(GetXPos(), GetYPos());
             return true;
         }
     }
