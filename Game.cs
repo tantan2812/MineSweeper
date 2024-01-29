@@ -1,5 +1,4 @@
 ﻿using Android.Content;
-using Android.Graphics;
 using Java.Util;
 using System;
 using Newtonsoft.Json;
@@ -21,11 +20,9 @@ namespace MineSweeper
         [JsonIgnore]
         public Context Context;
         [JsonIgnore]
-        public MineSweeperView MineSweeperView { get; set;}
-        [JsonIgnore]
         public GameEngine GameEngine { get; set;}
         [JsonIgnore]
-        public Task tskInitGameTask { get; }
+        public Task TskInitGameTask { get; }
         private HashMap HashMap
         {
             get
@@ -64,7 +61,7 @@ namespace MineSweeper
             hm.Put(General.FIELD_CREATE_TIME, fbd.DateTimeToFirestoreTimestamp(DateTime.Now));
             hm.Put(General.FIELD_PLAYERS, 1);
             hm.Put(General.FIELD_CURRENT_PLAYER, (int)Player.PlayerType.Guest);
-            tskInitGameTask = fbd.SetDocument(General.GAMES_COLLECTION, string.Empty, out string id, hm);
+            TskInitGameTask = fbd.SetDocument(General.GAMES_COLLECTION, string.Empty, out string id, hm);
             Id = id;
         }
 
@@ -74,7 +71,7 @@ namespace MineSweeper
             InitGame(hostName, Player.PlayerType.Host);
             Context = context;
             fbd = new FbData();
-            tskInitGameTask = fbd.IncrementField(General.GAMES_COLLECTION, id, General.FIELD_PLAYERS, 1);
+            TskInitGameTask = fbd.IncrementField(General.GAMES_COLLECTION, id, General.FIELD_PLAYERS, 1);
         }
 
         private void InitGame(string hostName, Player.PlayerType type)

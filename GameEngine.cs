@@ -13,48 +13,43 @@ namespace MineSweeper
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
         public Board Board { get; private set; }
 
-        public static GameEngine getInstance()
+        public static GameEngine GetInstance()
         {
-            if (instance == null)
-            {
-                instance = new GameEngine();
-            }
+            instance ??= new GameEngine();
             return instance;
         }
 
-        public void createGrid(Context context)
+        public void CreateGrid(Context context)
         {
             this.context = context;
             Board = new Board(context);
             Board.GenerateFullBoard();
         }
 
-        public Square getCellAt(int position)
+        public Square GetCellAt(int position)
         {
             int x = position % WIDTH;
             int y = position / WIDTH;
-
-            return Board.GetSquare(x,y);
-            //return Board.squares[x, y];
+            Board.Squares[x, y].PostInvalidate();
+            return Board.Squares[x, y];
 
         }
 
-        public Square getCellAt(int x, int y)
+        public Square GetCellAt(int x, int y)
         {
-            // return Board.GetSquare(x,y);
-            return Board.squares[x,y];
+            return Board.Squares[x,y];
         }
 
-        private bool checkEnd()
+        private bool CheckEnd()
         {
             int bombNotFound = BOMB_NUMBER;
             int notRevealed = WIDTH * HEIGHT;
             for (int x = 0; x < WIDTH; x++)
                 for (int y = 0; y < HEIGHT; y++)
                 {
-                    if (getCellAt(x, y).IsRevealed || getCellAt(x, y).IsFlagged)
+                    if (GetCellAt(x, y).IsRevealed || GetCellAt(x, y).IsFlagged)
                         notRevealed--;
-                    if (getCellAt(x, y).IsFlagged && getCellAt(x, y) is Mine)
+                    if (GetCellAt(x, y).IsFlagged && GetCellAt(x, y) is Mine)
                         bombNotFound--;
                 }
 
@@ -65,14 +60,35 @@ namespace MineSweeper
 
         internal void Click(int x, int y)
         {
-            throw new NotImplementedException();
+            if(x>=0&&y>=0&&x<WIDTH && y<HEIGHT&&!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsFlagged)
+            {
+                GetCellAt(x, y).Revealed();
+                if (!(GetCellAt(x, y) is NumberTile)&&!(GetCellAt(x, y) is Mine))
+                    for (int xt = -1; xt <= 1; xt++)
+                        for (int yt = -1; yt <= 1; yt++)
+                            if (xt != yt)
+                                Click(x + xt, y + yt);
+                if (GetCellAt(x, y) is Mine)
+                    MineClicked(x,y);
+            }
+                
+            CheckEnd();
+        }
+
+        private void MineClicked(int x, int y)
+        {
+            //temp
+            GetCellAt(x, y).Revealed();
         }
 
         internal void Flag(int x, int y)
         {
-            bool isFlagged = getCellAt(x, y).IsFlagged;
-            getCellAt(x, y).SetFlagged(!isFlagged);
-            getCellAt(x, y).Invalidate();
+            if(!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsRevealed)
+            {
+                bool isFlagged = GetCellAt(x, y).IsFlagged;
+                GetCellAt(x, y).SetFlagged(!isFlagged);
+                GetCellAt(x, y).Invalidate();
+            }
         }
     }
 }

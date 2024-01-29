@@ -31,13 +31,26 @@ namespace MineSweeper
             Invalidate();
         }
 
+        private Bitmap ScaleBitmap(Bitmap original, int newWidth, int newHeight)
+        {
+            return Bitmap.CreateScaledBitmap(original, newWidth, newHeight, true);
+        }
+
         protected override void OnDraw(Canvas canvas)
         {
-            if (IsExploded == true)
-                canvas.DrawBitmap(ExploededMineCell, 0, 0, null);
-            else
-                canvas.DrawBitmap(MineCell, 0, 0, null);
             base.OnDraw(canvas);
+            int scaledWidth = Width;
+            int scaledHeight = Height;
+            Bitmap ScaledMineCell = ScaleBitmap(MineCell, scaledWidth, scaledHeight);
+            Bitmap ScaledScaledMineCell = ScaleBitmap(ScaledMineCell, scaledWidth, scaledHeight);
+            if (this.IsClicked && this.IsRevealed)
+            {
+                if (IsExploded == true)
+                    canvas.DrawBitmap(ScaledScaledMineCell, 0, 0, null);
+                else
+                    canvas.DrawBitmap(ScaledMineCell, 0, 0, null);
+            }
+               
         }
 
     }

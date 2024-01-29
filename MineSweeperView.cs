@@ -23,8 +23,7 @@ namespace MineSweeper
         {
             Board = new Board(context);
             Board.GenerateFullBoard();
-            Board.AddCellsToAdapter();
-            Squares = Board.squares;
+            Squares = Board.Squares;
             GestureDetector gestureDetector = new GestureDetector(context, new GestureListener());
         }
 

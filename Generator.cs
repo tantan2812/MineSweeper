@@ -17,7 +17,7 @@ namespace MineSweeper
         {
             Random rnd=new Random();
             int mines = Constants.NUMBER_OF_MINES;
-            Square[,] squares = Board.squares;
+            Square[,] squares = Board.Squares;
             while (mines > 0)
             {
                 int x = rnd.Next(Constants.SIZE_OF_BOARD_WIDTH);

@@ -10,7 +10,7 @@ using System;
 namespace MineSweeper
 {
     [Activity(Label = "GameActivity")]
-    public class GameActivity : Activity, IOnCompleteListener
+    public class GameActivity : AppCompatActivity, IOnCompleteListener
     {
         TextView tvTime, tvScore;
         TextView tvTimer, tvScoreNow;
@@ -18,18 +18,11 @@ namespace MineSweeper
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //SupportActionBar.Hide();
+            SupportActionBar.Hide();
             InitObjects();
             InitViews();
-            try
-            {
-                SetContentView(Resource.Layout.activity_game);
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            game.GameEngine.createGrid(this);
+            SetContentView(Resource.Layout.activity_game);
+            GameEngine.GetInstance().CreateGrid(this);
         }
 
         private void InitViews()
@@ -43,8 +36,7 @@ namespace MineSweeper
         private void InitObjects()
         {
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON));
-            game.Context = this;
-            game.GameEngine=GameEngine.getInstance();
+            //game.GameEngine=GameEngine.GetInstance();
             GameTimer cd = new GameTimer(300000, 1000, this);
             cd.Start();
         }

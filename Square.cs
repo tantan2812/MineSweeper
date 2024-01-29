@@ -1,22 +1,23 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Graphics.Drawables;
+using Android.Util;
 using Android.Views;
+using AndroidX.Core.Content;
 
 namespace MineSweeper
 {
     internal class Square: View, View.IOnClickListener,View.IOnLongClickListener
     {
-        Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
-        Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
-        Bitmap UnRevealedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.button);
+        readonly Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
+        readonly Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
+        readonly Bitmap UnRevealedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.button);
 
         public bool IsRevealed { get; set; }
         public bool IsEmpty { get; set; }
         public bool IsFlagged { get; set; }
-
-        //private readonly float length, height;
-
+        public bool IsClicked { get; set; }
         private int x, y;
         private int position;
 
@@ -27,11 +28,11 @@ namespace MineSweeper
             IsRevealed = false;
             IsEmpty = true;
             IsFlagged = false;
-            /*length = Constants.SIZE_OF_CELL_WIDTH;
-            height = Constants.SIZE_OF_CELL_HEIGHT;*/
+            IsClicked = false;
             SetPosition(x, y);
             SetOnClickListener(this);
             SetOnLongClickListener(this);
+            PostInvalidate();
         }
 
         public Square(Context context) : base(context)
@@ -39,8 +40,23 @@ namespace MineSweeper
 
         }
 
+        public Square(Context context, IAttributeSet attrs, int X, int Y) : base(context, attrs)
+        {
+            x = X;
+            y = Y;
+            IsRevealed = false;
+            IsEmpty = true;
+            IsFlagged = false;
+            IsClicked = false;
+            SetPosition(x, y);
+            SetOnClickListener(this);
+            SetOnLongClickListener(this);
+            PostInvalidate();
+        }
+
         public void Revealed()
         {
+            IsClicked = true;
             IsRevealed = true;
             Invalidate();
         }
@@ -62,29 +78,38 @@ namespace MineSweeper
 
         public void SetFlagged(bool flagged)
         {
+
             IsFlagged = flagged;
+        }
+
+        private Bitmap ScaleBitmap(Bitmap original, int newWidth, int newHeight)
+        {
+            return Bitmap.CreateScaledBitmap(original, newWidth, newHeight, true);
         }
 
         protected override void OnDraw(Canvas canvas)
         {
-            if (IsEmpty == true)
-                canvas.DrawBitmap(EmptyCell, 0, 0, null);
-            if (IsRevealed == false)
-                canvas.DrawBitmap(UnRevealedCell, 0, 0, null);
-            if (IsFlagged == true)
-                canvas.DrawBitmap(FlaggedCell, 0, 0, null);
             base.OnDraw(canvas);
+
+            int scaledWidth = Width;
+            int scaledHeight = Height;
+
+            Bitmap scaledEmptyCell = ScaleBitmap(EmptyCell, scaledWidth, scaledHeight);
+            Bitmap scaledFlaggedCell = ScaleBitmap(FlaggedCell, scaledWidth, scaledHeight);
+            Bitmap scaledUnRevealedCell = ScaleBitmap(UnRevealedCell, scaledWidth, scaledHeight);
+            if(!(this is NumberTile) && !(this is Mine))
+            if (IsEmpty == true)
+                canvas.DrawBitmap(scaledEmptyCell, 0, 0, null);
+            if (IsRevealed == false)
+                canvas.DrawBitmap(scaledUnRevealedCell, 0, 0, null);
+            if (IsFlagged == true)
+                canvas.DrawBitmap(scaledFlaggedCell, 0, 0, null);
         }
 
-        protected override void OnMeasure(int widthMeasure, int heightMeasure)
+        protected override void OnMeasure(int WidthMeasureSpec, int HeightMeasureSpec)
         {
-            base.OnMeasure(widthMeasure, heightMeasure);
+            base.OnMeasure(WidthMeasureSpec, WidthMeasureSpec);
         }
-
-       /* public bool Touched(float x, float y)
-        {
-            return x >= GetX() && y >= GetY() && x <= GetX() + length & y <= GetY() + height;
-        }*/
 
         public int GetXPos()
         {
@@ -111,28 +136,12 @@ namespace MineSweeper
 
         public void OnClick(View v)
         {
-            /* if(IsEmpty==false)
-             {
-                 if (this is Mine)
-                 {
-
-                 }
-                 else
-                 {
-                     Revealed();
-                 }
-             }*/
-            GameEngine.getInstance().Click(GetXPos(), GetYPos());
+            GameEngine.GetInstance().Click(GetXPos(), GetYPos());
         }
 
         public bool OnLongClick(View v)
         {
-            /*if (IsFlagged)
-                UnFlagged();
-            else
-                Flagged();
-            return true;*/
-            GameEngine.getInstance().Flag(GetXPos(), GetYPos());
+            GameEngine.GetInstance().Flag(GetXPos(), GetYPos());
             return true;
         }
     }

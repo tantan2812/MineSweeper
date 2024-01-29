@@ -74,7 +74,7 @@ namespace MineSweeper
             else
             {
                 game = new Game(this, Intent.GetStringExtra(General.KEY_NAME));
-                game.tskInitGameTask.AddOnCompleteListener(this);
+                game.TskInitGameTask.AddOnCompleteListener(this);
             }
             intent.PutExtra(General.KEY_GAME_JSON, game.Json);
             StartActivity(intent);
@@ -91,7 +91,7 @@ namespace MineSweeper
                     QuerySnapshot qs = (QuerySnapshot)task.Result;
                     games.AddGames(qs.Documents);
                 }
-                else if (task == game.tskInitGameTask)
+                else if (task == game.TskInitGameTask)
                     msg = "Game Created";
             }
             else

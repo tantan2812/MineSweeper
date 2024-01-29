@@ -61,7 +61,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Board.cs" />
-    <Compile Include="BoardAdapter.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FbData.cs" />
     <Compile Include="Game.cs" />

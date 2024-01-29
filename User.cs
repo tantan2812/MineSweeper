@@ -16,9 +16,9 @@ namespace MineSweeper
     internal class User
     {
         private string name, email, password;
-        private FbData fbd;
-        private SpData spd;
-        private PlayerStats playerStats;
+        private readonly FbData fbd;
+        private readonly SpData spd;
+        //private PlayerStats playerStats;
         public string Name
         {
             get
