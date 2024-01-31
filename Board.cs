@@ -43,27 +43,16 @@ namespace MineSweeper
             InvalidateSquares();
         }
 
-        public void RevealAllSquares()
+        public void UnRevealBoard()
         {
             for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
                 for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
-                    Squares[i, j].Revealed();
-            IsRevealed = true;
-        }
-
-        public void RevealOneSquare(int x,int y)
-        {
-            Square square = GetSquare(x,y);
-            square.Revealed();
-        }
-
-        public Square GetSquare(int x, int y)
-        {
-            Square sq=new Square(Context);
-            for (int i = 0; i < x; i++)
-                for (int j = 0; j < y; j++)
-                    sq=Squares[i, j];
-            return sq;
+                {
+                    Squares[i, j].IsRevealed = false;
+                    Squares[i, j].IsFlagged = false;
+                    Squares[i, j].IsClicked = false;
+                }
+            InvalidateSquares();
         }
     }
 }

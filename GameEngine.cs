@@ -1,4 +1,5 @@
-﻿using Android.Content;
+﻿using Android.App;
+using Android.Content;
 using Android.Widget;
 using System;
 
@@ -24,6 +25,8 @@ namespace MineSweeper
             this.context = context;
             Board = new Board(context);
             Board.GenerateFullBoard();
+            GameTimer cd = new GameTimer(300000, 1000, (Activity)context);
+            cd.Start();
         }
 
         public Square GetCellAt(int position)
@@ -40,7 +43,7 @@ namespace MineSweeper
             return Board.Squares[x,y];
         }
 
-        private bool CheckEnd()
+        private void CheckEnd()
         {
             int bombNotFound = BOMB_NUMBER;
             int notRevealed = WIDTH * HEIGHT;
@@ -55,7 +58,6 @@ namespace MineSweeper
 
             if (bombNotFound == 0 && notRevealed == 0)
                 Toast.MakeText(context, "Game won", ToastLength.Long).Show();
-            return false;
         }
 
         internal void Click(int x, int y)
@@ -77,8 +79,8 @@ namespace MineSweeper
 
         private void MineClicked(int x, int y)
         {
-            //temp
-            GetCellAt(x, y).Revealed();
+            Board.UnRevealBoard();
+            Toast.MakeText(context, "Mine Clicked, try again", ToastLength.Long).Show();
         }
 
         internal void Flag(int x, int y)

@@ -22,7 +22,7 @@ namespace MineSweeper
             InitObjects();
             InitViews();
             SetContentView(Resource.Layout.activity_game);
-            GameEngine.GetInstance().CreateGrid(this);
+            //GameEngine.GetInstance().CreateGrid(this);
         }
 
         private void InitViews()
@@ -37,8 +37,6 @@ namespace MineSweeper
         {
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON));
             //game.GameEngine=GameEngine.GetInstance();
-            GameTimer cd = new GameTimer(300000, 1000, this);
-            cd.Start();
         }
 
         public void OnComplete(Task task)
