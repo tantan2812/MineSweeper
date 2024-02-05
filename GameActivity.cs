@@ -12,31 +12,20 @@ namespace MineSweeper
     [Activity(Label = "GameActivity")]
     public class GameActivity : AppCompatActivity, IOnCompleteListener
     {
-        TextView tvTime, tvScore;
-        TextView tvTimer, tvScoreNow;
         private Game game;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SupportActionBar.Hide();
             InitObjects();
-            InitViews();
             SetContentView(Resource.Layout.activity_game);
             //GameEngine.GetInstance().CreateGrid(this);
-        }
-
-        private void InitViews()
-        {
-            tvTime = FindViewById<TextView>(Resource.Id.tvTime);
-            tvScore = FindViewById<TextView>(Resource.Id.tvScore);
-            tvTimer = FindViewById<TextView>(Resource.Id.tvTimer);
-            tvScoreNow = FindViewById<TextView>(Resource.Id.tvScoreNow);
         }
 
         private void InitObjects()
         {
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON));
-            //game.GameEngine=GameEngine.GetInstance();
+            //game.GameEngine=GameEngine.GetInstance().CreateGrid();
         }
 
         public void OnComplete(Task task)

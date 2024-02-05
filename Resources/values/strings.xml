@@ -58,5 +58,6 @@
     <string name="fill">Please fill up all fields and register</string>
     <string name="time">time:</string>
     <string name="score">score:</string>
+    <string name="win_rate">win rate:</string>
 
 </resources>

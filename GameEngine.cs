@@ -7,26 +7,33 @@ namespace MineSweeper
 {
     internal class GameEngine
     {
-        private static GameEngine instance;
-        private Context context;
+        private static GameEngine Instance;
+        private Context Context;
         public static readonly int BOMB_NUMBER = Constants.NUMBER_OF_MINES;
         public static readonly int WIDTH = Constants.SIZE_OF_BOARD_WIDTH;
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
         public Board Board { get; private set; }
+        public PlayerStats PlayerStats { get; set; }
 
+        public SqlDataStats SqlStats { get; set; }
         public static GameEngine GetInstance()
         {
-            instance ??= new GameEngine();
-            return instance;
+            Instance ??= new GameEngine();
+            return Instance;
         }
 
         public void CreateGrid(Context context)
         {
-            this.context = context;
+            Context = context;
             Board = new Board(context);
             Board.GenerateFullBoard();
             GameTimer cd = new GameTimer(300000, 1000, (Activity)context);
             cd.Start();
+            PlayerStats = new PlayerStats();
+            SqlStats = new SqlDataStats();
+            SqlStats.Insert(PlayerStats);
+            PlayerStats.GamesPlayed++;
+            SqlStats.Update(PlayerStats);
         }
 
         public Square GetCellAt(int position)
@@ -57,7 +64,11 @@ namespace MineSweeper
                 }
 
             if (bombNotFound == 0 && notRevealed == 0)
-                Toast.MakeText(context, "Game won", ToastLength.Long).Show();
+            {
+                Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
+                PlayerStats.GamesWon++;
+                SqlStats.Update(PlayerStats);
+            }
         }
 
         internal void Click(int x, int y)
@@ -71,16 +82,16 @@ namespace MineSweeper
                             if (xt != yt)
                                 Click(x + xt, y + yt);
                 if (GetCellAt(x, y) is Mine)
-                    MineClicked(x,y);
+                    MineClicked();
             }
                 
             CheckEnd();
         }
 
-        private void MineClicked(int x, int y)
+        private void MineClicked()
         {
             Board.UnRevealBoard();
-            Toast.MakeText(context, "Mine Clicked, try again", ToastLength.Long).Show();
+            Toast.MakeText(Context, "Mine Clicked, try again", ToastLength.Long).Show();
         }
 
         internal void Flag(int x, int y)
@@ -90,6 +101,11 @@ namespace MineSweeper
                 bool isFlagged = GetCellAt(x, y).IsFlagged;
                 GetCellAt(x, y).SetFlagged(!isFlagged);
                 GetCellAt(x, y).Invalidate();
+                if(GetCellAt(x, y) is Mine)
+                {
+                    PlayerStats.MinesFound++;
+                    SqlStats.Update(PlayerStats);
+                }
             }
         }
     }

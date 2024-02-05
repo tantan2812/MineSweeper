@@ -8,7 +8,7 @@ namespace MineSweeper
 {
     internal class Game
     {
-        private FbData fbd;
+        private readonly FbData fbd;
         public string Id { get; set; }
         public string HostName { get; set; }
         public string GuestName { get; set; }
@@ -83,7 +83,7 @@ namespace MineSweeper
 
         public void Exit()
         {
-            fbd.DeleteDocument(General.GAMES_COLLECTION, Id);
+             fbd.DeleteDocument(General.GAMES_COLLECTION, Id);
         }
 
         public static Game GetGameJson(string json)
@@ -96,6 +96,9 @@ namespace MineSweeper
             return fbd.GetDocument(General.GAMES_COLLECTION, id);
         }
 
-        public Game() { }
+        public Game()
+        { 
+            fbd = new FbData();
+        }
     }
 }

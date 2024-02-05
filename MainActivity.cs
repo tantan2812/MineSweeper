@@ -12,7 +12,7 @@ namespace MineSweeper
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         TextView tvGoRules, tvGoRulesAnswer, tvCurrent;
-        Button btnGoGame, btnGoSettings, btnGoStats;
+        Button btnGoGame, btnGoStats;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -26,10 +26,8 @@ namespace MineSweeper
             tvGoRules = FindViewById<TextView>(Resource.Id.tvGoRules);
             tvGoRulesAnswer = FindViewById<TextView>(Resource.Id.tvGoRulesAnswer);
             btnGoGame = FindViewById<Button>(Resource.Id.btnGoGame);
-            btnGoSettings = FindViewById<Button>(Resource.Id.btnGoSettings);
             btnGoStats = FindViewById<Button>(Resource.Id.btnGoStats);
             btnGoGame.SetOnClickListener(this);
-            btnGoSettings.SetOnClickListener(this);
             btnGoStats.SetOnClickListener(this);
             RegisterForContextMenu(tvGoRules);
         }
@@ -60,8 +58,7 @@ namespace MineSweeper
         {
             if (v == btnGoGame)
                 OpenGamesActivitys();
-            if (v== btnGoSettings)
-                OpenSettingsActivitys();
+           
             if (v== btnGoStats)
                 OpenStatActivitys();
         }
@@ -72,12 +69,7 @@ namespace MineSweeper
             intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
             StartActivity(intent);
         }
-        private void OpenSettingsActivitys()
-        {
-            Intent intent = new Intent(this, typeof(SettingsActivity));
-            intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
-            StartActivity(intent);
-        }
+ 
         private void OpenStatActivitys()
         {
             Intent intent = new Intent(this, typeof(StatisticActivity));
