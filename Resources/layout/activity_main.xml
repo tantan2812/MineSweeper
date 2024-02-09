@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/XpPic"
     android:orientation="vertical">
     <TextView
         android:layout_width="match_parent"
@@ -11,18 +12,23 @@
         android:layout_margin="@dimen/margin"
         android:textSize="@dimen/text_size"
         android:gravity="center"
+        android:textColor="@android:color/black"
         android:text="@string/minesweeper"/>
     <Button
         android:id="@+id/btnGoGame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
+        android:background="@drawable/gridpicsmall"
+        android:textColor="@android:color/black"
         android:text="@string/go_game"/>
     <Button
         android:id="@+id/btnGoStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
+        android:background="@drawable/gridpicsmall"
+        android:textColor="@android:color/black"
         android:text="@string/statistics"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,6 +40,7 @@
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/rules"/>
         <TextView
             android:id="@+id/tvGoRules"
@@ -42,6 +49,7 @@
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:hint="@string/tv_hint"/>
     </LinearLayout>
     <TextView
@@ -50,7 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin"
         android:textSize="@dimen/text_size"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textColor="@android:color/black"/>
 
 
 </LinearLayout>

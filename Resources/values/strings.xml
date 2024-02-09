@@ -39,11 +39,11 @@
     <string name="create_game_rules">how do i create a game?</string>
     <string name="join_game_rules">how do i join a game?</string>
     <string name="stats_screen_rules">what does the statistic screen show?</string>
-    <string name="screen_rules_answer">you need to press the corrisponding button to go to the screen. the "Go Game!" button will take you to a screen where to can create or join a game. the "settings" button will take you to the settings. the "statstic" screen will take you o a statistic screen. to go back to the main screen you will need to press the back button</string>
-    <string name="game_rules_answer">what are the rules of the game?</string>
-    <string name="create_game_rules_answer">how do i create a game?</string>
-    <string name="join_game_rules_answer">how do i join a game?</string>
-    <string name="stats_screen_rules_answer">what does the statistic screen show?</string>
+    <string name="screen_rules_answer">you need to press the corrisponding button to go to the screen. the "Go Game!" button will take you to a screen where to can create or join a game. the "statstic" screen will take you o a statistic screen. to go back to the main screen you will need to press the back button</string>
+    <string name="game_rules_answer">in the game, you will have a board in front of you, and if you click a cell it will either br a number or a mine, if its a mine the board will reset and if it is a number it tells you how many mines are near it. your objective is to open up the entire board and long click to flag all the mine, and do all that faster than your opponent</string>
+    <string name="create_game_rules_answer">you press the "Go Game!" button and the create button</string>
+    <string name="join_game_rules_answer">you press the "Go Game!" button and long click on the game you want to join</string>
+    <string name="stats_screen_rules_answer">the statistic screen will show you how many mine you flagged correctly, it will show you how many games you played and how many of them you won and it will show your win rate perchantage</string>
     <string name="minesweeper_games">minesweeper Games</string>
     <string name="time_finished">The time is finished</string>
     <string name="ok">Ok</string>

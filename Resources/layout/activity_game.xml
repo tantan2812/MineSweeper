@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/XpPic">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,26 +16,30 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/time"/>
         <TextView
             android:id="@+id/tvTimer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"/>
         <TextView
             android:id="@+id/tvScore"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/score"/>
         <TextView
             android:id="@+id/tvScoreNow"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <MineSweeper.Grid
         android:id="@+id/cgvBoard"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@drawable/XpPic"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
@@ -9,6 +10,7 @@
         android:layout_margin="@dimen/margin"
         android:textSize="@dimen/text_size"
         android:gravity="center"
+        android:textColor="@android:color/black"
         android:text="@string/statistics"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +22,7 @@
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/games_played"/>
         <TextView
            android:id="@+id/tvGamesPlayedStat"
@@ -27,7 +30,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,6 +43,7 @@
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/games_Won"/>
         <TextView
            android:id="@+id/tvGamesWonStat"
@@ -46,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,6 +64,7 @@
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/mines_found"/>
         <TextView
            android:id="@+id/tvMinesFoundStat"
@@ -65,7 +72,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,6 +85,7 @@
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
+            android:textColor="@android:color/black"
             android:text="@string/win_rate"/>
         <TextView
            android:id="@+id/tvWinRateStat"
@@ -84,7 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin"
             android:textSize="@dimen/text_size"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 
 </LinearLayout>
