@@ -1,14 +1,7 @@
 ﻿using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace MineSweeper
 {
@@ -28,15 +21,12 @@ namespace MineSweeper
 
         private void InitObjects()
         {
-            if(GameEngine.GetInstance().SqlStats != null)
-            {
-                PlayerStats = new PlayerStats();
-                PlayerStats = GameEngine.GetInstance().SqlStats.UpdatedPlayerStats();
+           
+                PlayerStats = new PlayerStats(1);
                 tvGamesPlayedStat.Text = PlayerStats.GamesPlayed.ToString();
                 tvGamesWonStat.Text = PlayerStats.GamesWon.ToString();
                 tvMinesFoundStat.Text = PlayerStats.MinesFound.ToString();
                 tvWinRateStat.Text = PlayerStats.WinRate().ToString();
-            }
         }
 
         private void InitViews()

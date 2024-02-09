@@ -91,7 +91,7 @@ namespace MineSweeper
                     QuerySnapshot qs = (QuerySnapshot)task.Result;
                     games.AddGames(qs.Documents);
                 }
-                else if (task == game.TskInitGameTask)
+                else if (game!=null&&task == game.TskInitGameTask)
                     msg = "Game Created";
             }
             else

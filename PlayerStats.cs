@@ -1,14 +1,4 @@
-﻿using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
-using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using SQLite;
 
 namespace MineSweeper
 {
@@ -20,6 +10,8 @@ namespace MineSweeper
         public int GamesWon { get; set; }
         public int GamesPlayed { get; set; }
         public int MinesFound { get; set;}
+        [Ignore]
+        public SqlDataStats SqlDataStats { get; set; }
 
         public PlayerStats(int gamesWon, int minesFound, int gamesPlayed)
         {
@@ -34,8 +26,17 @@ namespace MineSweeper
             MinesFound = 0;
             GamesPlayed = 0;
         }
-        // retrn a %WinRate
-        public String WinRate()
+
+
+        public PlayerStats(int num)
+        {
+            SqlDataStats= new SqlDataStats();
+            GamesWon = SqlDataStats.SumOfGamesWon();
+            MinesFound = SqlDataStats.SumOfFoundMines();
+            GamesPlayed = SqlDataStats.SumOfGamesPlayed();
+        }
+
+        public string WinRate()
         {
             double NumaAvg=0;
             NumaAvg = (double)((double)GamesWon / (double)GamesPlayed);
