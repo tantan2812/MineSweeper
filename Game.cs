@@ -65,12 +65,12 @@ namespace MineSweeper
             Id = id;
             Board = new Board(Context);
             Board.GenerateFullBoard();
-            string jBoard = JsonConvert.SerializeObject(Board.Squares, new JsonSerializerSettings
+           /* string jBoard = JsonConvert.SerializeObject(Board.Squares, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-            hm.Put(General.FIELD_BOARD_SQUARES, jBoard);
+            });*/
+            //hm.Put(General.FIELD_BOARD_SQUARES, jBoard);
         }
 
         public Game(Context context, string hostName, string id)
