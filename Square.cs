@@ -5,13 +5,17 @@ using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Views;
 using AndroidX.Core.Content;
+using Newtonsoft.Json;
 
 namespace MineSweeper
 {
-    internal class Square: View, View.IOnClickListener,View.IOnLongClickListener
+    public class Square: View, View.IOnClickListener,View.IOnLongClickListener
     {
+        [JsonIgnore]
         readonly Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
+        [JsonIgnore]
         readonly Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
+        [JsonIgnore]
         readonly Bitmap UnRevealedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.button);
 
         public bool IsRevealed { get; set; }
@@ -144,5 +148,6 @@ namespace MineSweeper
             GameEngine.GetInstance().Flag(GetXPos(), GetYPos());
             return true;
         }
+
     }
 }

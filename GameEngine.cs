@@ -12,7 +12,7 @@ namespace MineSweeper
         public static readonly int BOMB_NUMBER = Constants.NUMBER_OF_MINES;
         public static readonly int WIDTH = Constants.SIZE_OF_BOARD_WIDTH;
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
-        public Board Board { get; private set; }
+        public Board Board { get; set; }
         public PlayerStats PlayerStats { get; set; }
 
         public SqlDataStats SqlStats { get; set; }

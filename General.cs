@@ -32,6 +32,7 @@ namespace MineSweeper
         public const string FIELD_CREATE_TIME = "CreateTime";
         public const string FIELD_PLAYERS = "Players";
         public const string FIELD_CURRENT_PLAYER = "CurrentPlayer";
+        public const string FIELD_BOARD_SQUARES = "BoardAndSquares";
 
         public static byte[] BitmapToByteArray(Bitmap bitmap)
         {

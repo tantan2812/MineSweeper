@@ -2,7 +2,7 @@
 
 namespace MineSweeper
 {
-    internal class Board
+    public class Board
     {
         public Square[,] Squares {  get; set; }
         public Generator Generator { get; set; }
@@ -20,7 +20,7 @@ namespace MineSweeper
         
         public Context GetContext()
         {
-            return this.Context;
+            return Context;
         }
 
         public void GenerateSquares()

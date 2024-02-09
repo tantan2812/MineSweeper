@@ -3,6 +3,7 @@ using Java.Util;
 using System;
 using Newtonsoft.Json;
 using Android.Gms.Tasks;
+using GoogleGson;
 
 namespace MineSweeper
 {
@@ -19,8 +20,7 @@ namespace MineSweeper
         public Player Player { get; set; }
         [JsonIgnore]
         public Context Context;
-        [JsonIgnore]
-        public GameEngine GameEngine { get; set;}
+        public Board Board { get; set; }
         [JsonIgnore]
         public Task TskInitGameTask { get; }
         private HashMap HashMap
@@ -63,6 +63,14 @@ namespace MineSweeper
             hm.Put(General.FIELD_CURRENT_PLAYER, (int)Player.PlayerType.Guest);
             TskInitGameTask = fbd.SetDocument(General.GAMES_COLLECTION, string.Empty, out string id, hm);
             Id = id;
+            Board = new Board(Context);
+            Board.GenerateFullBoard();
+            string jBoard = JsonConvert.SerializeObject(Board.Squares, new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            hm.Put(General.FIELD_BOARD_SQUARES, jBoard);
         }
 
         public Game(Context context, string hostName, string id)

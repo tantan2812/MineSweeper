@@ -13,19 +13,23 @@ namespace MineSweeper
     public class GameActivity : AppCompatActivity, IOnCompleteListener
     {
         private Game game;
+        private Grid grid;
+        private Board board;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SupportActionBar.Hide();
             InitObjects();
             SetContentView(Resource.Layout.activity_game);
-            //GameEngine.GetInstance().CreateGrid(this);
+            grid.UpdateBoard(board);
         }
 
         private void InitObjects()
         {
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON));
-            //game.GameEngine=GameEngine.GetInstance().CreateGrid();
+            grid=new Grid(this);
+            board = new Board(this);
+            board.GenerateFullBoard();
         }
 
         public void OnComplete(Task task)

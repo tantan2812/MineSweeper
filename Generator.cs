@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MineSweeper
 {
-    internal class Generator
+    public class Generator
     {
         public Board Board { get; set; }
 
