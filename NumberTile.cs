@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,19 +15,32 @@ namespace MineSweeper
 {
     internal class NumberTile:Square
     {
+        [JsonIgnore]
         Bitmap number1Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_1);
+        [JsonIgnore]
         Bitmap number2Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_2);
+        [JsonIgnore]
         Bitmap number3Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_3);
-        Bitmap number4Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_4);
+        [JsonIgnore]
+        Bitmap number4Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_4); 
+        [JsonIgnore]
         Bitmap number5Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_5);
+        [JsonIgnore]
         Bitmap number6Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_6);
+        [JsonIgnore]
         Bitmap number7Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_7);
+        [JsonIgnore]
         Bitmap number8Cell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_8);
 
         public int Hint { get; set; }
         public int NeighborMinesCount { get; set; }
 
         public NumberTile(Context context, int X, int Y) : base(context, X, Y)
+        {
+            NeighborMinesCount = 0;
+        }
+        
+        public NumberTile(Context context) : base(context)
         {
             NeighborMinesCount = 0;
         }

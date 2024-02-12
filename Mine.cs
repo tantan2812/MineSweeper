@@ -5,6 +5,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,20 @@ namespace MineSweeper
 {
     internal class Mine:Square
     {
+        [JsonIgnore]
         Bitmap MineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_normal);
+        [JsonIgnore]
         Bitmap ExploededMineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_exploded);
 
 
         public bool IsExploded { get; set; }
         public bool IsCorner { get; set; }
         public Mine(Context context, int X, int Y) : base(context, X, Y)
+        {
+            IsExploded = false;
+        }
+
+        public Mine(Context context) : base(context)
         {
             IsExploded = false;
         }

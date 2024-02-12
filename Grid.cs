@@ -21,6 +21,7 @@ namespace MineSweeper
 
         public Grid(Context context) : base(context)
         {
+
         }
 
         public void UpdateBoard(Board board)
@@ -52,7 +53,9 @@ namespace MineSweeper
 
             public override View GetView(int position, View convertView, ViewGroup parent)
             {
-                return GameEngine.GetInstance().GetCellAt(position);
+                View v =  GameEngine.GetInstance().GetCellAt(position);
+                NotifyDataSetChanged();
+                return v;
             }
         }
     }

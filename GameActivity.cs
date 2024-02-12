@@ -2,15 +2,18 @@
 using Android.Content;
 using Android.Gms.Tasks;
 using Android.OS;
+using Android.Runtime;
 using Android.Util;
+using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using Firebase.Firestore;
 using System;
 
 namespace MineSweeper
 {
     [Activity(Label = "GameActivity")]
-    public class GameActivity : AppCompatActivity, IOnCompleteListener
+    public class GameActivity : AppCompatActivity, IOnCompleteListener, IEventListener, View.IOnClickListener, View.IOnLongClickListener
     {
         private Game game;
         private Grid grid;
@@ -21,15 +24,17 @@ namespace MineSweeper
             SupportActionBar.Hide();
             InitObjects();
             SetContentView(Resource.Layout.activity_game);
-            grid.UpdateBoard(board);
         }
 
         private void InitObjects()
         {
-            game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON));
+            if (Intent.HasExtra("IsHost"))
+            {
+                game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON),this);
+            }
+            else
+                game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);
             grid=new Grid(this);
-            board = new Board(this);
-            board.GenerateFullBoard();
         }
 
         public void OnComplete(Task task)
@@ -47,6 +52,49 @@ namespace MineSweeper
         {
             game.Exit();
             base.OnPause();
+        }
+
+        public void OnEvent(Java.Lang.Object obj, FirebaseFirestoreException error)
+        {
+            DocumentSnapshot ds = obj as DocumentSnapshot;
+            if (ds.Contains(General.FIELD_BOARD_SQUARES))
+            {
+                game.ReceiveBoard((JavaList)ds.Get(General.FIELD_BOARD_SQUARES));
+                grid.UpdateBoard(game.Board);
+            }
+        }
+
+        public void OnClick(View v)
+        {
+            bool found = false;
+            for (int i = 0; i < game.Board.Squares.GetLength(0) && !found; i++)
+            {
+                for (int j = 0; j < game.Board.Squares.GetLength(1) && !found; j++)
+                {
+                    if (v == game.Board.Squares[i, j])
+                    {
+                        GameEngine.GetInstance().Click(i, j);
+                        found = true;
+                    }
+                }
+            }
+        }
+
+        public bool OnLongClick(View v)
+        {
+            bool found = false;
+            for (int i = 0; i < game.Board.Squares.GetLength(0) && !found; i++)
+            {
+                for (int j = 0; j < game.Board.Squares.GetLength(1) && !found; j++)
+                {
+                    if (v == game.Board.Squares[i, j])
+                    {
+                        GameEngine.GetInstance().Flag(i, j);
+                        found = true;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

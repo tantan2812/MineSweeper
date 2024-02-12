@@ -22,8 +22,8 @@ namespace MineSweeper
         public bool IsEmpty { get; set; }
         public bool IsFlagged { get; set; }
         public bool IsClicked { get; set; }
-        private int x, y;
-        private int position;
+        public int x, y;
+        public int position;
 
         public Square(Context context, int X, int Y):base(context)
         {
@@ -40,6 +40,17 @@ namespace MineSweeper
         }
 
         public Square(Context context) : base(context)
+        {
+            IsRevealed = false;
+            IsEmpty = true;
+            IsFlagged = false;
+            IsClicked = false;
+            SetOnClickListener(this);
+            SetOnLongClickListener(this);
+            PostInvalidate();
+        }
+
+        public Square():base(null)
         {
 
         }
@@ -63,6 +74,7 @@ namespace MineSweeper
             IsClicked = true;
             IsRevealed = true;
             Invalidate();
+            PostInvalidate();
         }
         public void SetEmpty()
         {
@@ -134,13 +146,15 @@ namespace MineSweeper
         {
             this.x = x;
             this.y = y;
-            this.position = y * GameEngine.WIDTH + x;
+            position = y * GameEngine.WIDTH + x;
             Invalidate();
         }
 
         public void OnClick(View v)
         {
             GameEngine.GetInstance().Click(GetXPos(), GetYPos());
+            Invalidate();
+            PostInvalidate();
         }
 
         public bool OnLongClick(View v)

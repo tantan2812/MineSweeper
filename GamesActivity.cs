@@ -64,8 +64,8 @@ namespace MineSweeper
             intent.PutExtra(General.KEY_NAME, name);
             if (position != NEW_GAME)
             {
-                 intent.PutExtra(General.KEY_ID, games[position].Id);
-                 intent.PutExtra(General.KEY_HOST_NAME, games[position].HostName);
+                intent.PutExtra(General.KEY_ID, games[position].Id);
+                intent.PutExtra(General.KEY_HOST_NAME, games[position].HostName);
                 game = new Game(this, games[position].HostName, games[position].Id)
                 {
                     GuestName = name
@@ -75,6 +75,7 @@ namespace MineSweeper
             {
                 game = new Game(this, Intent.GetStringExtra(General.KEY_NAME));
                 game.TskInitGameTask.AddOnCompleteListener(this);
+                intent.PutExtra("IsHost", true);
             }
             intent.PutExtra(General.KEY_GAME_JSON, game.Json);
             StartActivity(intent);
