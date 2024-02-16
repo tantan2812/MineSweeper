@@ -9,12 +9,13 @@ namespace MineSweeper
 {
     public class Grid : GridView
     {
-        Board Board { get; set; }
+        public Board Board { get; set; }
         Context ContextGird { get; set; }
         public Grid(Context context, IAttributeSet attrs) : base(context, attrs)
         {
             ContextGird = context;
             GameEngine.GetInstance().CreateGrid(ContextGird);
+            Board = GameEngine.GetInstance().Board;
             SetNumColumns(GameEngine.WIDTH);
             Adapter = new GridAdapter();
         }
@@ -28,7 +29,11 @@ namespace MineSweeper
         {
             Board=board;
             Board.Context = ContextGird;
+            GameEngine.GetInstance().Context=ContextGird;
+            Board = Board.CreateCopyBoard(Board);
             GameEngine.GetInstance().Board=Board;
+            GameEngine.GetInstance().SetBoard(GameEngine.GetInstance().Board);
+            GameEngine.GetInstance().Board.InvalidateSquares();
             SetNumColumns(GameEngine.WIDTH);
             Adapter = new GridAdapter();
         }

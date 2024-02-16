@@ -1,10 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Views;
-using AndroidX.Core.Content;
 using Newtonsoft.Json;
 
 namespace MineSweeper
@@ -162,6 +160,14 @@ namespace MineSweeper
             GameEngine.GetInstance().Flag(GetXPos(), GetYPos());
             return true;
         }
+        /*public string GetJsonSquare()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
 
+        public static Square GetSquareJson(string json)
+        {
+            return JsonConvert.DeserializeObject<Square>(json);
+        }*/
     }
 }

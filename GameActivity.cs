@@ -13,28 +13,32 @@ using System;
 namespace MineSweeper
 {
     [Activity(Label = "GameActivity")]
-    public class GameActivity : AppCompatActivity, IOnCompleteListener, IEventListener, View.IOnClickListener, View.IOnLongClickListener
+    public class GameActivity : AppCompatActivity, IOnCompleteListener, IEventListener//, View.IOnClickListener, View.IOnLongClickListener
     {
         private Game game;
         private Grid grid;
         private Board board;
+        private Context context;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             SupportActionBar.Hide();
             InitObjects();
             SetContentView(Resource.Layout.activity_game);
+            board = GameEngine.GetInstance().Board;
+            if (board != null && Intent.HasExtra("IsHost"))
+            {
+                game.SetStringBoard(board);
+                //game.SetStringBoardJson(board);
+            }
+
         }
 
         private void InitObjects()
         {
-            if (Intent.HasExtra("IsHost"))
-            {
-                game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON),this);
-            }
-            else
-                game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);
-            grid=new Grid(this);
+            grid = new Grid(this);
+            context = grid.Context;
+            game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);
         }
 
         public void OnComplete(Task task)
@@ -57,14 +61,14 @@ namespace MineSweeper
         public void OnEvent(Java.Lang.Object obj, FirebaseFirestoreException error)
         {
             DocumentSnapshot ds = obj as DocumentSnapshot;
-            if (ds.Contains(General.FIELD_BOARD_SQUARES))
+            if (ds.Contains(General.FIELD_BOARD_SQUARES) && Intent.HasExtra("IsGuest"))
             {
-                game.ReceiveBoard((JavaList)ds.Get(General.FIELD_BOARD_SQUARES));
-                grid.UpdateBoard(game.Board);
+                board = game.ReceiveBoard((JavaList)ds.Get(General.FIELD_BOARD_SQUARES));
+                grid.UpdateBoard(board);
             }
         }
 
-        public void OnClick(View v)
+       /* public void OnClick(View v)
         {
             bool found = false;
             for (int i = 0; i < game.Board.Squares.GetLength(0) && !found; i++)
@@ -95,6 +99,6 @@ namespace MineSweeper
                 }
             }
             return true;
-        }
+        }*/
     }
 }

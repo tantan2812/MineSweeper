@@ -28,6 +28,7 @@ namespace MineSweeper
         public Board Board { get; set; }
         [JsonIgnore]
         public Task TskInitGameTask { get; }
+        [JsonIgnore]
         private HashMap HashMap
         {
             get
@@ -66,26 +67,8 @@ namespace MineSweeper
             hm.Put(General.FIELD_CREATE_TIME, fbd.DateTimeToFirestoreTimestamp(DateTime.Now));
             hm.Put(General.FIELD_PLAYERS, 1);
             hm.Put(General.FIELD_CURRENT_PLAYER, (int)Player.PlayerType.Guest);
-            Board = new Board(Context);
-            Board.GenerateFullBoard();
             JavaList<string> list = new JavaList<string>();
-            string square, type;
-            for (int i = 0; i < Board.Squares.GetLength(0); i++)
-            {
-                for (int j = 0; j < Board.Squares.GetLength(1); j++)
-                {
-                    square = string.Empty;
-                    square += i.ToString() + j.ToString();
-                    if (Board.Squares[i, j] is Mine)
-                        type = (-1).ToString();
-                    else if (Board.Squares[i, j] is NumberTile)
-                        type = ((NumberTile)Board.Squares[i, j]).Hint.ToString();
-                    else
-                        type = 0.ToString();
-                    square += " " + type;
-                    list.Add(square);
-                }
-            }
+            list=CreateStringBoard();
             hm.Put(General.FIELD_BOARD_SQUARES, list);
             TskInitGameTask = fbd.SetDocument(General.GAMES_COLLECTION, string.Empty, out string id, hm);
             Id = id;
@@ -107,6 +90,76 @@ namespace MineSweeper
             HostName = hostName;
             CurrentPlayer = Player.PlayerType.Guest;
             Player = new Player(type);
+        }
+
+        public void SetStringBoard(Board board)
+        {
+            JavaList<string> list = new JavaList<string>();
+            string square, type;
+            for (int i = 0; i < board.Squares.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.Squares.GetLength(1); j++)
+                {
+                    square = string.Empty;
+                    square += i.ToString() + j.ToString();
+                    if (board.Squares[i, j] is Mine)
+                        type = (-1).ToString();
+                    else if (board.Squares[i, j] is NumberTile)
+                        type = ((NumberTile)board.Squares[i, j]).Hint.ToString();
+                    else
+                        type = 0.ToString();
+                    square += " " + type;
+                    list.Add(square);
+                }
+            }
+            fbd.UpdateField(General.GAMES_COLLECTION, Id, General.FIELD_BOARD_SQUARES, list);
+            fbd.AddSnapshotListener((Activity)Context, General.GAMES_COLLECTION, Id);
+        }
+
+        public void SetStringBoardJson(Board board)
+        {
+            HashMap hm = HashMap;
+            string jBoard = JsonConvert.SerializeObject(board.Squares, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+            hm.Put(General.FIELD_BOARD_SQUARES, jBoard);
+            fbd.SetDocument(General.GAMES_COLLECTION, string.Empty, out string id, hm);
+            Id = id;
+            fbd.AddSnapshotListener((Activity)Context, General.GAMES_COLLECTION, id);
+        }
+
+        public void GetStringBoardJson(string json)
+        {
+            Square[,] deserializedArray = JsonConvert.DeserializeObject<Square[,]>(json);
+
+        }
+
+
+        public JavaList<string> CreateStringBoard()
+        {
+            Board = new Board(Context);
+            Board.GenerateSquares();
+            Board.GenerateFullBoard();
+            JavaList<string> list = new JavaList<string>();
+            string square, type;
+            for (int i = 0; i < Board.Squares.GetLength(0); i++)
+            {
+                for (int j = 0; j < Board.Squares.GetLength(1); j++)
+                {
+                    square = string.Empty;
+                    square += i.ToString() + j.ToString();
+                    if (Board.Squares[i, j] is Mine)
+                        type = (-1).ToString();
+                    else if (Board.Squares[i, j] is NumberTile)
+                        type = ((NumberTile)Board.Squares[i, j]).Hint.ToString();
+                    else
+                        type = 0.ToString();
+                    square += " " + type;
+                    list.Add(square);
+                }
+            }
+            return list;
         }
 
         public JavaList<Square> SquaresToList(Board b)
@@ -142,7 +195,7 @@ namespace MineSweeper
             return fbd.GetDocument(General.GAMES_COLLECTION, id);
         }
 
-        public void ReceiveBoard(JavaList lstBoard)
+        public Board ReceiveBoard(JavaList lstBoard)
         {
             Square sqr;
             string[] arr; 
@@ -167,6 +220,7 @@ namespace MineSweeper
                 Board.Squares[row, col] = sqr;
             }
             RegisterSquares();
+            return Board;
         }
 
         private void RegisterSquares()

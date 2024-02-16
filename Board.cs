@@ -32,7 +32,7 @@ namespace MineSweeper
                     Squares[i, j] = new Square(Context, i, j);
         }
 
-        private void InvalidateSquares()
+        public void InvalidateSquares()
         {
             for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
                 for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
@@ -57,18 +57,16 @@ namespace MineSweeper
             InvalidateSquares();
         }
 
-        public string GetJsonBoard()
+        public Board CreateCopyBoard(Board board)
         {
-            return JsonConvert.SerializeObject(Squares, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                PreserveReferencesHandling = PreserveReferencesHandling.Objects
-            });
+            Board Board = new Board(Context);
+            for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
+                for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
+                    Board.Squares[i, j] = board.Squares[i,j];
+            Board.InvalidateSquares();
+            return Board;
         }
 
-        public static Square[,] GetSquaresJson(string json)
-        {
-            return JsonConvert.DeserializeObject<Square[,]>(json);
-        }
+       
     }
 }

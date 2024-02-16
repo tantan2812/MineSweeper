@@ -8,7 +8,7 @@ namespace MineSweeper
     internal class GameEngine
     {
         private static GameEngine Instance;
-        private Context Context;
+        public Context Context;
         public static readonly int BOMB_NUMBER = Constants.NUMBER_OF_MINES;
         public static readonly int WIDTH = Constants.SIZE_OF_BOARD_WIDTH;
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
@@ -34,6 +34,17 @@ namespace MineSweeper
             SqlStats.Insert(PlayerStats);
             PlayerStats.GamesPlayed++;
             SqlStats.Update(PlayerStats);
+        }
+
+        public void SetBoard(Board board)
+        {
+            for (int i = 0; i < WIDTH; i++)
+                for (int j = 0; j < HEIGHT; j++)
+                {
+                    Board.Squares[i, j] = board.Squares[i, j];
+                    Board.Squares[i, j].BringToFront();
+                    //Board.Squares[i, j].Context = Context;
+                }
         }
 
         public Square GetCellAt(int position)

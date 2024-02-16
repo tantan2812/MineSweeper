@@ -99,6 +99,19 @@ namespace MineSweeper
             return firestore.Collection(cName).Get();
         }
 
+        public Task UpdateField(string cName, string docId, string fName, int num)
+        {
+            return firestore.Collection(cName).Document(docId).Update(fName, num);
+        }
+        public Task UpdateField(string cName, string docId, string fName, string str)
+        {
+            return firestore.Collection(cName).Document(docId).Update(fName, str);
+        }
+        public Task UpdateField(string cName, string docId, string fName, JavaList jl)
+        {
+            return firestore.Collection(cName).Document(docId).Update(fName, jl);
+        }
+
         public Task GetEqualToDocs(string cName, string fName, Java.Lang.Object fValue)
         {
             return firestore.Collection(cName).WhereEqualTo(fName, fValue).Get();

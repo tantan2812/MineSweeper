@@ -70,6 +70,7 @@ namespace MineSweeper
                 {
                     GuestName = name
                 };
+                intent.PutExtra("IsGuest", true);
             }
             else
             {
@@ -97,7 +98,8 @@ namespace MineSweeper
             }
             else
                 msg = task.Exception.Message;
-            Toast.MakeText(this, msg, ToastLength.Long).Show();
+            if (msg != string.Empty)
+                Toast.MakeText(this, msg, ToastLength.Long).Show();
         }
 
         public void OnEvent(Java.Lang.Object obj, FirebaseFirestoreException error)
