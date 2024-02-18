@@ -116,19 +116,6 @@ namespace MineSweeper
             fbd.AddSnapshotListener((Activity)Context, General.GAMES_COLLECTION, Id);
         }
 
-        public void SetStringBoardJson(Board board)
-        {
-            HashMap hm = HashMap;
-            string jBoard = JsonConvert.SerializeObject(board.Squares, new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            });
-            hm.Put(General.FIELD_BOARD_SQUARES, jBoard);
-            fbd.SetDocument(General.GAMES_COLLECTION, string.Empty, out string id, hm);
-            Id = id;
-            fbd.AddSnapshotListener((Activity)Context, General.GAMES_COLLECTION, id);
-        }
-
         public void GetStringBoardJson(string json)
         {
             Square[,] deserializedArray = JsonConvert.DeserializeObject<Square[,]>(json);

@@ -5,11 +5,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Java.Util.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace MineSweeper
 {
@@ -22,10 +24,13 @@ namespace MineSweeper
 
 
         public bool IsExploded { get; set; }
+        public bool IsExplodedState { get; set; }
+        public bool ShouldAnimate { get; set; }
         public bool IsCorner { get; set; }
         public Mine(Context context, int X, int Y) : base(context, X, Y)
         {
             IsExploded = false;
+            IsExplodedState = true;
         }
 
         public Mine(Context context) : base(context)
@@ -36,7 +41,11 @@ namespace MineSweeper
         public void HasExploded()
         {
             IsExploded=true;
+            IsRevealed=true;
+            IsClicked=true;
+            ShouldAnimate=true;
             Invalidate();
+            PostInvalidate();
         }
 
         private Bitmap ScaleBitmap(Bitmap original, int newWidth, int newHeight)
@@ -50,16 +59,34 @@ namespace MineSweeper
             int scaledWidth = Width;
             int scaledHeight = Height;
             Bitmap ScaledMineCell = ScaleBitmap(MineCell, scaledWidth, scaledHeight);
-            Bitmap ScaledScaledMineCell = ScaleBitmap(ScaledMineCell, scaledWidth, scaledHeight);
-            if (this.IsClicked && this.IsRevealed)
+            Bitmap ScaledExploededMineCell = ScaleBitmap(ExploededMineCell, scaledWidth, scaledHeight);
+            if (IsExploded&& ShouldAnimate)
             {
-                if (IsExploded == true)
-                    canvas.DrawBitmap(ScaledScaledMineCell, 0, 0, null);
+                if (IsExplodedState)
+                    canvas.DrawBitmap(ScaledExploededMineCell, 0, 0, null);
                 else
                     canvas.DrawBitmap(ScaledMineCell, 0, 0, null);
+                IsExplodedState = !IsExplodedState;
+                Handler.PostDelayed(() =>
+                {
+                    if (ShouldAnimate)
+                    {
+                        Invalidate();
+                    }
+                }, 100);
             }
-               
+            else if (IsRevealed)
+                canvas.DrawBitmap(ScaledMineCell, 0, 0, null);
         }
 
+        public void StopAnimation()
+        {
+            ShouldAnimate = false; 
+            IsClicked=false;
+            IsRevealed=false;
+            IsFlagged = false;
+            Handler.RemoveCallbacksAndMessages(null);
+            Invalidate();
+        }
     }
 }

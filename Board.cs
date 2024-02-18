@@ -53,7 +53,19 @@ namespace MineSweeper
                     Squares[i, j].IsRevealed = false;
                     Squares[i, j].IsFlagged = false;
                     Squares[i, j].IsClicked = false;
+                    if(Squares[i, j] is Mine)
+                        ((Mine)Squares[i, j]).IsExploded= false;
                 }
+            IsRevealed = false;
+            InvalidateSquares();
+        }
+
+        public void RevealBoard()
+        {
+            for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
+                for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
+                    Squares[i, j].IsRevealed = true;
+            IsRevealed = true;
             InvalidateSquares();
         }
 
@@ -66,6 +78,13 @@ namespace MineSweeper
             Board.InvalidateSquares();
             return Board;
         }
+
+       /* public void UpdateContext( Context context)
+        {
+            for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
+                for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
+                    Squares[i, j].Context = context;
+        }*/
 
        
     }

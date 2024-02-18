@@ -1,7 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
+using Android.Speech.Tts;
 using Android.Widget;
 using System;
+using System.Threading;
 
 namespace MineSweeper
 {
@@ -77,6 +79,7 @@ namespace MineSweeper
             if (bombNotFound == 0 && notRevealed == 0)
             {
                 Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
+                Board.RevealBoard();
                 PlayerStats.GamesWon++;
                 SqlStats.Update(PlayerStats);
             }
@@ -93,16 +96,19 @@ namespace MineSweeper
                             if (xt != yt)
                                 Click(x + xt, y + yt);
                 if (GetCellAt(x, y) is Mine)
-                    MineClicked();
+                    MineClicked(x,y);
             }
                 
             CheckEnd();
         }
 
-        private void MineClicked()
+        private void MineClicked(int x,int y)
         {
-            Board.UnRevealBoard();
             Toast.MakeText(Context, "Mine Clicked, try again", ToastLength.Long).Show();
+            ((Mine)GetCellAt(x, y)).HasExploded();
+            Thread.Sleep(1000);
+            ((Mine)GetCellAt(x, y)).StopAnimation();
+            Board.UnRevealBoard();
         }
 
         internal void Flag(int x, int y)

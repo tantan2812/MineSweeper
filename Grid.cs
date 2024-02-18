@@ -20,17 +20,27 @@ namespace MineSweeper
             Adapter = new GridAdapter();
         }
 
-        public Grid(Context context) : base(context)
+        public Grid(Context context, Board board) : base(context)
         {
-
+            Board = board;
+            Board.Context = context;
+            GameEngine.GetInstance().Context = context;
+            //Board = Board.CreateCopyBoard(Board);
+            GameEngine.GetInstance().Board = Board;
+            GameEngine.GetInstance().SetBoard(GameEngine.GetInstance().Board);
+            GameEngine.GetInstance().Board.InvalidateSquares();
+            SetNumColumns(GameEngine.WIDTH);
+            Adapter = new GridAdapter();
         }
 
-        public void UpdateBoard(Board board)
+        public Grid(Context context) : base(context) { }
+
+        public void UpdateBoard(Board board, Context context)
         {
             Board=board;
             Board.Context = ContextGird;
             GameEngine.GetInstance().Context=ContextGird;
-            Board = Board.CreateCopyBoard(Board);
+            //Board = Board.CreateCopyBoard(Board);
             GameEngine.GetInstance().Board=Board;
             GameEngine.GetInstance().SetBoard(GameEngine.GetInstance().Board);
             GameEngine.GetInstance().Board.InvalidateSquares();
