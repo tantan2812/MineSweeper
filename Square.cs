@@ -10,11 +10,11 @@ namespace MineSweeper
     public class Square: View, View.IOnClickListener,View.IOnLongClickListener
     {
         [JsonIgnore]
-        readonly Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
+        Bitmap EmptyCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.number_0);
         [JsonIgnore]
-        readonly Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
+        Bitmap FlaggedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.flag);
         [JsonIgnore]
-        readonly Bitmap UnRevealedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.button);
+        Bitmap UnRevealedCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.button);
 
         public bool IsRevealed { get; set; }
         public bool IsEmpty { get; set; }

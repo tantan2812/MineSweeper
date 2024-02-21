@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Graphics;
+using Android.Net.Wifi.Aware;
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -18,6 +19,8 @@ namespace MineSweeper
         public const int REQUEST_OPEN_ACTIVITY = 1;
         public static int MIN_LENGTH = 3;
         public static int MIN_PWD_LENGTH = 6;
+        public const string ACTION_ANIMATE = "com.meitar.action.ANIMATE";
+        public const string KEY_FRAME = "frame";
         public const string SP_FILE_NAME = "sp.dat";
         public const string KEY_EMAIL = "email";
         public const string KEY_PWD = "pwd";

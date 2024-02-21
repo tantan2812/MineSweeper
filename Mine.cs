@@ -18,9 +18,9 @@ namespace MineSweeper
     internal class Mine:Square
     {
         [JsonIgnore]
-        Bitmap MineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_normal);
+        public Bitmap MineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_normal);
         [JsonIgnore]
-        Bitmap ExploededMineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_exploded);
+        public Bitmap ExploededMineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_exploded);
 
 
         public bool IsExploded { get; set; }
@@ -62,6 +62,7 @@ namespace MineSweeper
             Bitmap ScaledExploededMineCell = ScaleBitmap(ExploededMineCell, scaledWidth, scaledHeight);
             if (IsExploded&& ShouldAnimate)
             {
+
                 if (IsExplodedState)
                     canvas.DrawBitmap(ScaledExploededMineCell, 0, 0, null);
                 else

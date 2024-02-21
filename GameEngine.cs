@@ -1,9 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Speech.Tts;
 using Android.Widget;
-using System;
-using System.Threading;
+using ServiceSample;
+using Intent = Android.Content.Intent;
+using Android.Views;
 
 namespace MineSweeper
 {
@@ -11,6 +11,8 @@ namespace MineSweeper
     {
         private static GameEngine Instance;
         public Context Context;
+        public Activity Activity;
+        public AnimationReceiver myAnimationReceiver;
         public static readonly int BOMB_NUMBER = Constants.NUMBER_OF_MINES;
         public static readonly int WIDTH = Constants.SIZE_OF_BOARD_WIDTH;
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
@@ -79,6 +81,7 @@ namespace MineSweeper
             if (bombNotFound == 0 && notRevealed == 0)
             {
                 Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
+                EndDialog();
                 Board.RevealBoard();
                 PlayerStats.GamesWon++;
                 SqlStats.Update(PlayerStats);
@@ -106,8 +109,7 @@ namespace MineSweeper
         {
             Toast.MakeText(Context, "Mine Clicked, try again", ToastLength.Long).Show();
             ((Mine)GetCellAt(x, y)).HasExploded();
-            Thread.Sleep(1000);
-            ((Mine)GetCellAt(x, y)).StopAnimation();
+            StartAnimation(GetCellAt(x, y));
             Board.UnRevealBoard();
         }
 
@@ -124,6 +126,31 @@ namespace MineSweeper
                     SqlStats.Update(PlayerStats);
                 }
             }
+        }
+
+        public void EndDialog()
+        {
+            var bulider = new AlertDialog.Builder(Activity);
+            bulider.SetMessage(Activity.Resources.GetString(Resource.String.time_finished));
+            bulider.SetPositiveButton(Resource.String.ok, OnPositiveButtonClick);
+            bulider.SetCancelable(true);
+            bulider.Create().Show();
+        }
+
+        private void OnPositiveButtonClick(object sender, DialogClickEventArgs e)
+        {
+            Intent intent = new Intent(Context, typeof(GamesActivity));
+            Context.StartActivity(intent);
+        }
+
+        protected void StartAnimation(View view)
+        {
+            myAnimationReceiver = new AnimationReceiver(view);
+            IntentFilter filter = new IntentFilter();
+            filter.AddAction(General.ACTION_ANIMATE);
+            Context.RegisterReceiver(myAnimationReceiver, filter);
+            Intent intent = new Intent(Context, typeof(AnimationService));
+            Context.StartService(intent);
         }
     }
 }

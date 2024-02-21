@@ -39,12 +39,13 @@ namespace MineSweeper
 
         private void InitViews()
         {
-            tvScoreNow = FindViewById<TextView>(Resource.Id.tvScoreNow);
-            tvScoreNow.Text= GameEngine.BOMB_NUMBER.ToString();
+            /*tvScoreNow = FindViewById<TextView>(Resource.Id.tvScoreNow);
+            tvScoreNow.Text= GameEngine.BOMB_NUMBER.ToString();*/
         }
 
         private void InitObjects()
         {
+            GameEngine.GetInstance().Activity=this;
             grid = new Grid(this);
             context = grid.Context;
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);

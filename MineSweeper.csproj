@@ -60,6 +60,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnimationReceiver.cs" />
+    <Compile Include="AnimationService.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FbData.cs" />
