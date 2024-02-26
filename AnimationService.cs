@@ -14,7 +14,7 @@ namespace ServiceSample
         public const int FRAME_COUNTER = 30;
         public const int PER_SECOND = 200;
 
-        private bool stoped;
+        private bool stopped;
         public override IBinder OnBind(Intent intent)
         {
             return null;
@@ -22,7 +22,7 @@ namespace ServiceSample
 
         public override StartCommandResult OnStartCommand(Intent intent, [GeneratedEnum] StartCommandFlags flags, int startId)
         {
-            stoped = false;
+            stopped = false;
             ThreadStart ts = new ThreadStart(SendAnimationBroadcast);
             Thread thread = new Thread(ts);
             thread.Start();
@@ -33,7 +33,7 @@ namespace ServiceSample
         {
             int frame, counter = 0;
             Intent intent = new Intent(General.ACTION_ANIMATE);
-            while (!stoped && counter <= FRAME_COUNTER)
+            while (!stopped && counter <= FRAME_COUNTER)
             {
                 Thread.Sleep(PER_SECOND);
                 counter++;
@@ -56,7 +56,7 @@ namespace ServiceSample
 
         public override void OnDestroy()
         {
-            stoped = true;
+            stopped = true;
             base.OnDestroy();
         }
     }

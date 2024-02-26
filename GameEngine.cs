@@ -4,6 +4,8 @@ using Android.Widget;
 using ServiceSample;
 using Intent = Android.Content.Intent;
 using Android.Views;
+using Android.OS;
+using System;
 
 namespace MineSweeper
 {
@@ -20,6 +22,16 @@ namespace MineSweeper
         public PlayerStats PlayerStats { get; set; }
 
         public SqlDataStats SqlStats { get; set; }
+        private Dialog winDialog { get; set; }
+        private ImageView img1;
+        private ImageView img2;
+        private ImageView img3;
+        private ImageView img4;
+        private ImageView img5;
+        public Chronometer chrono;
+        GameTimer cd;
+        TextView nm;
+        private int NumOfClicks { get; set; }
         public static GameEngine GetInstance()
         {
             Instance ??= new GameEngine();
@@ -31,13 +43,15 @@ namespace MineSweeper
             Context = context;
             Board = new Board(context);
             Board.GenerateFullBoard();
-            GameTimer cd = new GameTimer(300000, 1000, (Activity)context);
-            cd.Start();
+            /* cd = new GameTimer(300000, 1000, (Activity)context);
+             cd.Start();*/
+           // chrono = Activity.FindViewById<Chronometer>(Resource.Id.tvTimer);
             PlayerStats = new PlayerStats();
             SqlStats = new SqlDataStats();
             SqlStats.Insert(PlayerStats);
             PlayerStats.GamesPlayed++;
             SqlStats.Update(PlayerStats);
+            NumOfClicks = 0;
         }
 
         public void SetBoard(Board board)
@@ -69,6 +83,7 @@ namespace MineSweeper
         {
             int bombNotFound = BOMB_NUMBER;
             int notRevealed = WIDTH * HEIGHT;
+            int flags = 0;
             for (int x = 0; x < WIDTH; x++)
                 for (int y = 0; y < HEIGHT; y++)
                 {
@@ -76,12 +91,15 @@ namespace MineSweeper
                         notRevealed--;
                     if (GetCellAt(x, y).IsFlagged && GetCellAt(x, y) is Mine)
                         bombNotFound--;
+                    if (GetCellAt(x, y).IsFlagged)
+                        flags++;
                 }
 
-            if (bombNotFound == 0 && notRevealed == 0)
+            if (bombNotFound == 0 && notRevealed == 0&&flags==10)
             {
                 Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
-                EndDialog();
+                //chrono.Stop();
+                ShowWinDialog();
                 Board.RevealBoard();
                 PlayerStats.GamesWon++;
                 SqlStats.Update(PlayerStats);
@@ -92,6 +110,12 @@ namespace MineSweeper
         {
             if(x>=0&&y>=0&&x<WIDTH && y<HEIGHT&&!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsFlagged)
             {
+                /*if(NumOfClicks==0)
+                {
+                    chrono.Base= SystemClock.ElapsedRealtime();
+                    chrono.Start();
+                }*/
+                NumOfClicks++;
                 GetCellAt(x, y).Revealed();
                 if (!(GetCellAt(x, y) is NumberTile)&&!(GetCellAt(x, y) is Mine))
                     for (int xt = -1; xt <= 1; xt++)
@@ -101,7 +125,6 @@ namespace MineSweeper
                 if (GetCellAt(x, y) is Mine)
                     MineClicked(x,y);
             }
-                
             CheckEnd();
         }
 
@@ -109,7 +132,6 @@ namespace MineSweeper
         {
             Toast.MakeText(Context, "Mine Clicked, try again", ToastLength.Long).Show();
             ((Mine)GetCellAt(x, y)).HasExploded();
-            StartAnimation(GetCellAt(x, y));
             Board.UnRevealBoard();
         }
 
@@ -128,29 +150,31 @@ namespace MineSweeper
             }
         }
 
-        public void EndDialog()
+        protected void StartAnimation(ImageView img1, ImageView img2, ImageView img3, ImageView img4, ImageView img5)
         {
-            var bulider = new AlertDialog.Builder(Activity);
-            bulider.SetMessage(Activity.Resources.GetString(Resource.String.time_finished));
-            bulider.SetPositiveButton(Resource.String.ok, OnPositiveButtonClick);
-            bulider.SetCancelable(true);
-            bulider.Create().Show();
-        }
-
-        private void OnPositiveButtonClick(object sender, DialogClickEventArgs e)
-        {
-            Intent intent = new Intent(Context, typeof(GamesActivity));
-            Context.StartActivity(intent);
-        }
-
-        protected void StartAnimation(View view)
-        {
-            myAnimationReceiver = new AnimationReceiver(view);
+            myAnimationReceiver = new AnimationReceiver(img1, img2, img3, img4, img5);
             IntentFilter filter = new IntentFilter();
             filter.AddAction(General.ACTION_ANIMATE);
             Context.RegisterReceiver(myAnimationReceiver, filter);
             Intent intent = new Intent(Context, typeof(AnimationService));
             Context.StartService(intent);
+        }
+
+        private void ShowWinDialog()
+        {
+            winDialog = new Dialog(Activity);
+            winDialog.SetContentView(Resource.Layout.win_dialog);
+            img1 = winDialog.FindViewById<ImageView>(Resource.Id.animation1);
+            img2 = winDialog.FindViewById<ImageView>(Resource.Id.animation2);
+            img3 = winDialog.FindViewById<ImageView>(Resource.Id.animation3);
+            img4 = winDialog.FindViewById<ImageView>(Resource.Id.animation4);
+            img5 = winDialog.FindViewById<ImageView>(Resource.Id.animation5);
+            nm = winDialog.FindViewById<TextView>(Resource.Id.clicks);
+            nm.Text=NumOfClicks.ToString();
+            //chrono = (Chronometer)winDialog.FindViewById<TextView>(Resource.Id.simpleChronometer);
+            StartAnimation(img1, img2, img3, img4, img5);
+            winDialog.SetCancelable(true);
+            winDialog.Show();
         }
     }
 }

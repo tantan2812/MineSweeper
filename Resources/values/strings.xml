@@ -59,5 +59,9 @@
     <string name="time">time:</string>
     <string name="score">score:</string>
     <string name="win_rate">win rate:</string>
+    <string name="win">You Won!</string>
+    <string name="animation">animation</string>
+    <string name="win_time_stat">you won the game in:</string>
+    <string name="win_click_stat">you won the game in clicks:</string>
 
 </resources>
