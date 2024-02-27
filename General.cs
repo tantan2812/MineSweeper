@@ -30,9 +30,11 @@ namespace MineSweeper
         public const string KEY_GAME_JSON = "game_json";
         public const string USERS_COLLECTION = "Users";
         public const string GAMES_COLLECTION = "Games";
+        public const string TIMES_COLLECTION = "Times";
         public const string FIELD_NAME = "Name";
         public const string FIELD_HOST_NAME = "HostName";
         public const string FIELD_CREATE_TIME = "CreateTime";
+        public const string FIELD_WIN_TIME = "WinTime";
         public const string FIELD_PLAYERS = "Players";
         public const string FIELD_CURRENT_PLAYER = "CurrentPlayer";
         public const string FIELD_BOARD_SQUARES = "BoardAndSquares";

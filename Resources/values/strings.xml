@@ -62,6 +62,8 @@
     <string name="win">You Won!</string>
     <string name="animation">animation</string>
     <string name="win_time_stat">you won the game in:</string>
-    <string name="win_click_stat">you won the game in clicks:</string>
+    <string name="win_click_stat">you won the game in this number of clicks:</string>
+    <string name="starting_score">10</string>
+    <string name="leaderboard">leaderboard</string>
 
 </resources>

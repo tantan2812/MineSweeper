@@ -64,7 +64,11 @@ namespace MineSweeper
         {
             for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
                 for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
+                {
                     Squares[i, j].IsRevealed = true;
+                    if(Squares[i, j] is NumberTile)
+                        Squares[i, j].IsClicked= true;
+                }
             IsRevealed = true;
             InvalidateSquares();
         }

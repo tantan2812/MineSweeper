@@ -15,28 +15,6 @@
         android:textColor="@android:color/black"
         android:text="@string/win"/>
     <LinearLayout
-        android:id="@+id/timeRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true">
-        <TextView
-            android:id="@+id/tvWinStatstime"
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@android:color/black"
-            android:text="@string/win_time_stat"/>
-        <Chronometer
-            android:id="@+id/simpleChronometer"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@android:color/black"/>
-    </LinearLayout>
-    <LinearLayout
         android:id="@+id/clicksRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,7 +22,7 @@
         android:layout_centerHorizontal="true">
         <TextView
             android:id="@+id/tvWinStatsclicks"
-            android:layout_width="5dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_small"
@@ -52,7 +30,7 @@
             android:text="@string/win_click_stat"/>
         <TextView
             android:id="@+id/clicks"
-            android:layout_width="50dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_small"

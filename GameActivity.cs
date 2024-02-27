@@ -22,8 +22,6 @@ namespace MineSweeper
         private Board board;
         private Context context;
         TextToSpeech tts;
-        public TextView tvScoreNow;
-        public Chronometer chrono;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -37,9 +35,6 @@ namespace MineSweeper
             if (board != null && Intent.HasExtra("IsHost"))
                 game.SetStringBoard(board);
             //game.SetStringBoardJson(board);
-            chrono = FindViewById<Chronometer>(Resource.Id.tvTimer);
-            chrono.Base = SystemClock.ElapsedRealtime();
-            chrono.Start();
         }
 
         private void InitViews()
@@ -55,11 +50,7 @@ namespace MineSweeper
             game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);
             tts = new TextToSpeech(this, this);
             tts.Speak("Game Start!", QueueMode.Flush,null,null);
-            /*chrono = (Chronometer)FindViewById<TextView>(Resource.Id.tvTimer);
-            chrono = new Chronometer(this);
-            chrono.Base = SystemClock.ElapsedRealtime();
-            chrono.Start();*/
-
+            GameEngine.GetInstance().PlayerName = Intent.GetStringExtra(General.KEY_NAME);
         }
 
         public void OnComplete(Task task)
@@ -76,6 +67,7 @@ namespace MineSweeper
         protected override void OnPause()
         {
             game.Exit();
+            GameEngine.GetInstance().cd.Cancel();
             base.OnPause();
         }
 

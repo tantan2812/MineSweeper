@@ -39,7 +39,8 @@
             android:layout_height="match_parent"
             android:textSize="@dimen/text_size"
             android:layout_weight="1"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/black"
+            android:text="@string/starting_score"/>
     </LinearLayout>
     <MineSweeper.Grid
         android:id="@+id/cgvBoard"

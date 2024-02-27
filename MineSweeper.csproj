@@ -74,6 +74,7 @@
     <Compile Include="GameTimer.cs" />
     <Compile Include="General.cs" />
     <Compile Include="Grid.cs" />
+    <Compile Include="LeaderboardActivity.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Mine.cs" />
     <Compile Include="Generator.cs" />
@@ -212,6 +213,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\win_dialog.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_leaderboard.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\layout_leaderboard.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

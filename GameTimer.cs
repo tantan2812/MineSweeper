@@ -34,15 +34,12 @@ namespace MineSweeper
         public override void OnTick(long timeLeftMilisec)
         {
             TimeSpan ts = new TimeSpan(10000 * timeLeftMilisec);
-            TextView tvTimer = activity.FindViewById<TextView>(Resource.Id.tvTimer);
-            tvTimer.Text = string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
-            long elapsedTime = TotalMilisec - timeLeftMilisec;
-           // activity.Text(string.valueOf(elapsedTime / 1000));
         }
 
         private void OnPositiveButtonClick(object sender, DialogClickEventArgs e)
         {
             ((Dialog)sender).Dismiss();
+            GameEngine.GetInstance().ForceEnd();
         }
     }
 }

@@ -4,6 +4,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
+using System;
 using Intent = Android.Content.Intent;
 
 namespace MineSweeper
@@ -12,7 +13,7 @@ namespace MineSweeper
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         TextView tvGoRules, tvGoRulesAnswer, tvCurrent;
-        Button btnGoGame, btnGoStats;
+        Button btnGoGame, btnGoStats, btnGoLeaderBoard;
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -27,8 +28,10 @@ namespace MineSweeper
             tvGoRulesAnswer = FindViewById<TextView>(Resource.Id.tvGoRulesAnswer);
             btnGoGame = FindViewById<Button>(Resource.Id.btnGoGame);
             btnGoStats = FindViewById<Button>(Resource.Id.btnGoStats);
+            btnGoLeaderBoard = FindViewById<Button>(Resource.Id.btnGoLeaderBoard);
             btnGoGame.SetOnClickListener(this);
             btnGoStats.SetOnClickListener(this);
+            btnGoLeaderBoard.SetOnClickListener(this);
             RegisterForContextMenu(tvGoRules);
         }
 
@@ -61,6 +64,15 @@ namespace MineSweeper
            
             if (v== btnGoStats)
                 OpenStatActivitys();
+            if (v == btnGoLeaderBoard)
+                OpenLeaderboardActivitys();
+        }
+
+        private void OpenLeaderboardActivitys()
+        {
+            Intent intent = new Intent(this, typeof(LeaderboardActivity));
+            intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
+            StartActivity(intent);
         }
 
         private void OpenGamesActivitys()

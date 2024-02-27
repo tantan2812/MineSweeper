@@ -6,6 +6,8 @@ using Intent = Android.Content.Intent;
 using Android.Views;
 using Android.OS;
 using System;
+using Java.Util;
+using Firebase;
 
 namespace MineSweeper
 {
@@ -20,7 +22,6 @@ namespace MineSweeper
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
         public Board Board { get; set; }
         public PlayerStats PlayerStats { get; set; }
-
         public SqlDataStats SqlStats { get; set; }
         private Dialog winDialog { get; set; }
         private ImageView img1;
@@ -29,9 +30,14 @@ namespace MineSweeper
         private ImageView img4;
         private ImageView img5;
         public Chronometer chrono;
-        GameTimer cd;
-        TextView nm;
+        public GameTimer cd;
+        TextView tvScoreNow;
+        private FbData fbd;
+        private HashMap HashMap;
+        public string PlayerName { get; set; }
+
         private int NumOfClicks { get; set; }
+        private int Score { get; set; }
         public static GameEngine GetInstance()
         {
             Instance ??= new GameEngine();
@@ -43,15 +49,15 @@ namespace MineSweeper
             Context = context;
             Board = new Board(context);
             Board.GenerateFullBoard();
-            /* cd = new GameTimer(300000, 1000, (Activity)context);
-             cd.Start();*/
-           // chrono = Activity.FindViewById<Chronometer>(Resource.Id.tvTimer);
+            cd = new GameTimer(60000, 1000, (Activity)Context);
+            cd.Start();
             PlayerStats = new PlayerStats();
             SqlStats = new SqlDataStats();
             SqlStats.Insert(PlayerStats);
             PlayerStats.GamesPlayed++;
             SqlStats.Update(PlayerStats);
             NumOfClicks = 0;
+            Score = BOMB_NUMBER;
         }
 
         public void SetBoard(Board board)
@@ -98,23 +104,40 @@ namespace MineSweeper
             if (bombNotFound == 0 && notRevealed == 0&&flags==10)
             {
                 Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
-                //chrono.Stop();
+                chrono.Stop();
+                cd.Cancel();
                 ShowWinDialog();
                 Board.RevealBoard();
                 PlayerStats.GamesWon++;
                 SqlStats.Update(PlayerStats);
+                SentTimeToFirebase();
             }
+        }
+
+        public void ForceEnd()
+        {
+            cd.Cancel();
+            if(NumOfClicks> 0)
+            {
+                chrono.Stop();
+            }
+            Board.RevealBoard();
         }
 
         internal void Click(int x, int y)
         {
             if(x>=0&&y>=0&&x<WIDTH && y<HEIGHT&&!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsFlagged)
             {
-                /*if(NumOfClicks==0)
+                if(NumOfClicks==0)
                 {
+                    chrono = Activity.FindViewById<Chronometer>(Resource.Id.tvTimer);
                     chrono.Base= SystemClock.ElapsedRealtime();
                     chrono.Start();
-                }*/
+                    tvScoreNow = Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
+                }
+                cd.Cancel();
+                cd = new GameTimer(60000, 1000, (Activity)Context);
+                cd.Start();
                 NumOfClicks++;
                 GetCellAt(x, y).Revealed();
                 if (!(GetCellAt(x, y) is NumberTile)&&!(GetCellAt(x, y) is Mine))
@@ -130,6 +153,8 @@ namespace MineSweeper
 
         private void MineClicked(int x,int y)
         {
+            Score = BOMB_NUMBER;
+            tvScoreNow.Text = Score.ToString();
             Toast.MakeText(Context, "Mine Clicked, try again", ToastLength.Long).Show();
             ((Mine)GetCellAt(x, y)).HasExploded();
             Board.UnRevealBoard();
@@ -139,6 +164,7 @@ namespace MineSweeper
         {
             if(!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsRevealed)
             {
+                NumOfClicks++;
                 bool isFlagged = GetCellAt(x, y).IsFlagged;
                 GetCellAt(x, y).SetFlagged(!isFlagged);
                 GetCellAt(x, y).Invalidate();
@@ -146,6 +172,8 @@ namespace MineSweeper
                 {
                     PlayerStats.MinesFound++;
                     SqlStats.Update(PlayerStats);
+                    Score--;
+                    tvScoreNow.Text = Score.ToString();
                 }
             }
         }
@@ -169,12 +197,28 @@ namespace MineSweeper
             img3 = winDialog.FindViewById<ImageView>(Resource.Id.animation3);
             img4 = winDialog.FindViewById<ImageView>(Resource.Id.animation4);
             img5 = winDialog.FindViewById<ImageView>(Resource.Id.animation5);
-            nm = winDialog.FindViewById<TextView>(Resource.Id.clicks);
+            TextView nm = winDialog.FindViewById<TextView>(Resource.Id.clicks);
             nm.Text=NumOfClicks.ToString();
-            //chrono = (Chronometer)winDialog.FindViewById<TextView>(Resource.Id.simpleChronometer);
             StartAnimation(img1, img2, img3, img4, img5);
             winDialog.SetCancelable(true);
             winDialog.Show();
+        }
+
+        private long ChronometerToNumericValue()
+        {
+            long baseTime = chrono.Base;
+            long currentElapsedTime = SystemClock.ElapsedRealtime();
+            long elapsedTimeInSeconds = (currentElapsedTime - baseTime) / 1000;
+            return elapsedTimeInSeconds;
+        }
+
+        public void SentTimeToFirebase()
+        {
+            HashMap hashMap = new HashMap();
+            fbd = new FbData();
+            hashMap.Put(General.FIELD_NAME, PlayerName);
+            hashMap.Put(General.FIELD_WIN_TIME, ChronometerToNumericValue());
+            fbd.SetDocument(General.TIMES_COLLECTION, string.Empty, out string id, hashMap);
         }
     }
 }
