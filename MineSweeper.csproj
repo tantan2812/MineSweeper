@@ -75,6 +75,9 @@
     <Compile Include="General.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="LeaderboardActivity.cs" />
+    <Compile Include="leaderboardAdapter.cs" />
+    <Compile Include="LeaderboardPlayer.cs" />
+    <Compile Include="LeaderboardPlayers.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Mine.cs" />
     <Compile Include="Generator.cs" />
