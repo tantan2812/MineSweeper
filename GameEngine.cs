@@ -3,11 +3,8 @@ using Android.Content;
 using Android.Widget;
 using ServiceSample;
 using Intent = Android.Content.Intent;
-using Android.Views;
 using Android.OS;
-using System;
 using Java.Util;
-using Firebase;
 
 namespace MineSweeper
 {
@@ -33,7 +30,6 @@ namespace MineSweeper
         public GameTimer cd;
         TextView tvScoreNow;
         private FbData fbd;
-        private HashMap HashMap;
         public string PlayerName { get; set; }
 
         private int NumOfClicks { get; set; }
@@ -118,9 +114,7 @@ namespace MineSweeper
         {
             cd.Cancel();
             if(NumOfClicks> 0)
-            {
                 chrono.Stop();
-            }
             Board.RevealBoard();
         }
 

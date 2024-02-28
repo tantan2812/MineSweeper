@@ -77,7 +77,7 @@ namespace MineSweeper
 
         private void OpenGamesActivitys()
         {
-            Intent intent = new Intent(this, typeof(GamesActivity));
+            Intent intent = new Intent(this, typeof(GameActivity));
             intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
             StartActivity(intent);
         }

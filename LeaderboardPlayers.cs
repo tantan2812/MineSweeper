@@ -15,7 +15,7 @@ namespace MineSweeper
 {
     internal class LeaderboardPlayers
     {
-        private FbData fbd;
+        public FbData fbd;
         public leaderboardAdapter Adapter { get; }
         
         public LeaderboardPlayer this[int position]
@@ -44,17 +44,11 @@ namespace MineSweeper
             }
         }
 
-        /*internal Task GetTopPlayers()
+        public void AddGames(List<LeaderboardPlayer> players)
         {
-            Task task = fbd.GetCollection(General.TIMES_COLLECTION);
-            QuerySnapshot qs = (QuerySnapshot)task.Result;
-            List<long> topPlayers = new List<long>();
-            foreach (DocumentSnapshot document in qs.Documents)
-            {
-                topPlayers.Add((long)document.Get(General.FIELD_WIN_TIME));
-            }
-            topPlayers.Sort((a, b) => a.CompareTo(b));
-            topPlayers.Take(10).ToList();
-        }*/
+            Adapter.Clear();
+            foreach (LeaderboardPlayer player in players)
+                Adapter.AddGame(player);
+        }
     }
 }

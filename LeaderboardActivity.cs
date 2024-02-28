@@ -19,7 +19,6 @@ namespace MineSweeper
     public class LeaderboardActivity : AppCompatActivity, IEventListener, IOnCompleteListener
     {
         LeaderboardPlayers players;
-        LeaderboardPlayer player;
         Task tskGetTopPlayers;
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -42,15 +41,23 @@ namespace MineSweeper
 
         public void OnEvent(Java.Lang.Object obj, FirebaseFirestoreException error)
         {
-            tskGetTopPlayers = players.GetTopPlayers().AddOnCompleteListener(this);
+            tskGetTopPlayers = players.fbd.GetCollection(General.TIMES_COLLECTION).AddOnCompleteListener(this);
         }
 
         public void OnComplete(Task task)
         {
             if (task.IsSuccessful)
             {
-                QuerySnapshot qs = (QuerySnapshot)task.Result;
-                players.AddGames(qs.Documents);
+                if (task== tskGetTopPlayers)
+                {
+                    QuerySnapshot qs = (QuerySnapshot)task.Result;
+                    List<LeaderboardPlayer> topPlayers = new List<LeaderboardPlayer>();
+                    foreach (DocumentSnapshot document in qs.Documents)
+                        topPlayers.Add(new LeaderboardPlayer((string)(document.Get(General.FIELD_NAME)), (long)document.Get(General.FIELD_WIN_TIME)));
+                    topPlayers.Sort((a, b) => a.IntTime.CompareTo(b.IntTime));
+                    topPlayers.Take(10).ToList();
+                    players.AddGames(topPlayers);
+                }               
             }
         }
     }

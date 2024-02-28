@@ -47,7 +47,7 @@ namespace MineSweeper
             GameEngine.GetInstance().Activity=this;
             grid = new Grid(this);
             context = grid.Context;
-            game = Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);
+            game = new Game(this, Intent.GetStringExtra(General.KEY_NAME));//Game.GetGameJson(Intent.GetStringExtra(General.KEY_GAME_JSON), this);
             tts = new TextToSpeech(this, this);
             tts.Speak("Game Start!", QueueMode.Flush,null,null);
             GameEngine.GetInstance().PlayerName = Intent.GetStringExtra(General.KEY_NAME);
@@ -86,38 +86,5 @@ namespace MineSweeper
         {
             tts.Speak("Game Start!", QueueMode.Flush, null, null);
         }
-
-        /* public void OnClick(View v)
-         {
-             bool found = false;
-             for (int i = 0; i < game.Board.Squares.GetLength(0) && !found; i++)
-             {
-                 for (int j = 0; j < game.Board.Squares.GetLength(1) && !found; j++)
-                 {
-                     if (v == game.Board.Squares[i, j])
-                     {
-                         GameEngine.GetInstance().Click(i, j);
-                         found = true;
-                     }
-                 }
-             }
-         }
-
-         public bool OnLongClick(View v)
-         {
-             bool found = false;
-             for (int i = 0; i < game.Board.Squares.GetLength(0) && !found; i++)
-             {
-                 for (int j = 0; j < game.Board.Squares.GetLength(1) && !found; j++)
-                 {
-                     if (v == game.Board.Squares[i, j])
-                     {
-                         GameEngine.GetInstance().Flag(i, j);
-                         found = true;
-                     }
-                 }
-             }
-             return true;
-         }*/
     }
 }

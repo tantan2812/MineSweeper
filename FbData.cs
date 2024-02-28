@@ -148,6 +148,8 @@ namespace MineSweeper
         {
             return firestore.Collection(cName).Document(docId).AddSnapshotListener((Firebase.Firestore.IEventListener)activity);
         }
+
+
         public UploadTask SaveImage(string fbImagePath, Bitmap bitmap)
         {
             StorageReference storageReference = FirebaseStorage.Instance.GetReference(fbImagePath);
