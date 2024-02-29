@@ -34,6 +34,7 @@ namespace MineSweeper
 
         private int NumOfClicks { get; set; }
         private int Score { get; set; }
+        private bool IsWon { get; set; }
         public static GameEngine GetInstance()
         {
             Instance ??= new GameEngine();
@@ -54,6 +55,7 @@ namespace MineSweeper
             SqlStats.Update(PlayerStats);
             NumOfClicks = 0;
             Score = BOMB_NUMBER;
+            IsWon = false;
         }
 
         public void SetBoard(Board board)
@@ -99,14 +101,18 @@ namespace MineSweeper
 
             if (bombNotFound == 0 && notRevealed == 0&&flags==10)
             {
-                Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
-                chrono.Stop();
-                cd.Cancel();
-                ShowWinDialog();
-                Board.RevealBoard();
-                PlayerStats.GamesWon++;
-                SqlStats.Update(PlayerStats);
-                SentTimeToFirebase();
+                if (IsWon == false)
+                {
+                    IsWon = true;
+                    Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
+                    chrono.Stop();
+                    cd.Cancel();
+                    ShowWinDialog();
+                    Board.RevealBoard();
+                    PlayerStats.GamesWon++;
+                    SqlStats.Update(PlayerStats);
+                    SentTimeToFirebase();
+                }
             }
         }
 
@@ -137,7 +143,7 @@ namespace MineSweeper
                 if (!(GetCellAt(x, y) is NumberTile)&&!(GetCellAt(x, y) is Mine))
                     for (int xt = -1; xt <= 1; xt++)
                         for (int yt = -1; yt <= 1; yt++)
-                            if (xt != yt)
+                            if (xt!=0||yt!=0)
                                 Click(x + xt, y + yt);
                 if (GetCellAt(x, y) is Mine)
                     MineClicked(x,y);
