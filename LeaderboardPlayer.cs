@@ -11,12 +11,20 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// save every entry of game winning that we are putting in the leaderboard and return the numeric value back into readable human format of time
+    /// </summary>
     internal class LeaderboardPlayer
     {
         public string Name { get; set; }
         public long IntTime { get; set; }
         public string StringTime { get; set; }
 
+        /// <summary>
+        /// creates a new LeaderboardPlayer
+        /// </summary>
+        /// <param name="name">name of player</param>
+        /// <param name="time">time it took to beat the game</param>
         public LeaderboardPlayer(string name, long time)
         {
             Name = name;
@@ -24,6 +32,9 @@ namespace MineSweeper
             SetTimeFormat();
         }
 
+        /// <summary>
+        /// return the numeric value back into readable human format of time
+        /// </summary>
         public void SetTimeFormat()
         {
             long temp = IntTime;

@@ -119,7 +119,6 @@ namespace MineSweeper
         public void GetStringBoardJson(string json)
         {
             Square[,] deserializedArray = JsonConvert.DeserializeObject<Square[,]>(json);
-
         }
 
 
@@ -155,9 +154,7 @@ namespace MineSweeper
             for (int i = 0; i < Constants.SIZE_OF_BOARD_WIDTH; i++)
             {
                 for (int j = 0; j < Constants.SIZE_OF_BOARD_HEIGHT; j++)
-                {
                     lst.Add(b.Squares[i, j]);
-                }
             }
             return lst;
         }

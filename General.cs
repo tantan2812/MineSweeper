@@ -14,6 +14,9 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// consts of keys and fields and frequently used parameters
+    /// </summary>
     internal static class General
     {
         public const int REQUEST_OPEN_ACTIVITY = 1;

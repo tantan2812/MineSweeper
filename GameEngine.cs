@@ -8,6 +8,9 @@ using Java.Util;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// handles the logic of the game, the saving into sql and firebase, and animation
+    /// </summary>
     internal class GameEngine
     {
         private static GameEngine Instance;
@@ -35,12 +38,21 @@ namespace MineSweeper
         private int NumOfClicks { get; set; }
         private int Score { get; set; }
         private bool IsWon { get; set; }
+
+        /// <summary>
+        /// gets the instance of the class, checks it hasnt been created again
+        /// </summary>
+        /// <returns></returns>
         public static GameEngine GetInstance()
         {
             Instance ??= new GameEngine();
             return Instance;
         }
 
+        /// <summary>
+        /// creates the board, start the afk timer and sets parameters to default and handles starting the sql 
+        /// </summary>
+        /// <param name="context"></param>
         public void CreateGrid(Context context)
         {
             Context = context;
@@ -69,6 +81,11 @@ namespace MineSweeper
                 }
         }
 
+        /// <summary>
+        /// gets a cell from the board
+        /// </summary>
+        /// <param name="position">what cell</param>
+        /// <returns></returns>
         public Square GetCellAt(int position)
         {
             int x = position % WIDTH;
@@ -78,11 +95,20 @@ namespace MineSweeper
 
         }
 
+        /// <summary>
+        /// gets a cell from the board
+        /// </summary>
+        /// <param name="x">position of cell</param>
+        /// <param name="y">position of cell</param>
+        /// <returns></returns>
         public Square GetCellAt(int x, int y)
         {
             return Board.Squares[x,y];
         }
 
+        /// <summary>
+        /// checks for the end of the game, if the game is won it shows the end dialog, stops the timers and handles the data sent to sql and firebase
+        /// </summary>
         private void CheckEnd()
         {
             int bombNotFound = BOMB_NUMBER;
@@ -116,6 +142,9 @@ namespace MineSweeper
             }
         }
 
+        /// <summary>
+        /// forces the end of the game, doesnt send data to sql and firebase, stops the timer
+        /// </summary>
         public void ForceEnd()
         {
             cd.Cancel();
@@ -124,6 +153,14 @@ namespace MineSweeper
             Board.RevealBoard();
         }
 
+
+        /// <summary>
+        /// handles clicks, start chrono timer on first click, start the afk timer again,
+        /// increase the number of clicks, reveal the cell and open the board if there is space,
+        /// checks if the cell is a mine and the end of the game
+        /// </summary>
+        /// <param name="x">position of cell</param>
+        /// <param name="y">position of cell</param>
         internal void Click(int x, int y)
         {
             if(x>=0&&y>=0&&x<WIDTH && y<HEIGHT&&!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsFlagged)
@@ -151,6 +188,11 @@ namespace MineSweeper
             CheckEnd();
         }
 
+        /// <summary>
+        /// restart the game
+        /// </summary>
+        /// <param name="x">position of cell</param>
+        /// <param name="y">position of cell</param>
         private void MineClicked(int x,int y)
         {
             Score = BOMB_NUMBER;
@@ -160,6 +202,11 @@ namespace MineSweeper
             Board.UnRevealBoard();
         }
 
+        /// <summary>
+        /// flags the cell, updates the number of flags clicked in the sql, handles the score
+        /// </summary>
+        /// <param name="x">position of cell</param>
+        /// <param name="y">position of cell</param>
         internal void Flag(int x, int y)
         {
             if(!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsRevealed)
@@ -178,6 +225,14 @@ namespace MineSweeper
             }
         }
 
+        /// <summary>
+        /// starts the animation in the end dialog
+        /// </summary>
+        /// <param name="img1"></param>
+        /// <param name="img2"></param>
+        /// <param name="img3"></param>
+        /// <param name="img4"></param>
+        /// <param name="img5"></param>
         protected void StartAnimation(ImageView img1, ImageView img2, ImageView img3, ImageView img4, ImageView img5)
         {
             myAnimationReceiver = new AnimationReceiver(img1, img2, img3, img4, img5);
@@ -188,6 +243,9 @@ namespace MineSweeper
             Context.StartService(intent);
         }
 
+        /// <summary>
+        /// when winning, open the win dialog and thre there is an animation and the number of clicks it took to win 
+        /// </summary>
         private void ShowWinDialog()
         {
             winDialog = new Dialog(Activity);
@@ -204,6 +262,10 @@ namespace MineSweeper
             winDialog.Show();
         }
 
+        /// <summary>
+        /// takes the time the timer finished in and coverts it to numeric value
+        /// </summary>
+        /// <returns></returns>
         private long ChronometerToNumericValue()
         {
             long baseTime = chrono.Base;
@@ -212,6 +274,9 @@ namespace MineSweeper
             return elapsedTimeInSeconds;
         }
 
+        /// <summary>
+        /// sends the name of the player and the time it took him to win to firebase
+        /// </summary>
         public void SentTimeToFirebase()
         {
             HashMap hashMap = new HashMap();

@@ -5,14 +5,26 @@ using System.Linq;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// in charge of generating mines and hints in the board
+    /// </summary>
     public class Generator
     {
         public Board Board { get; set; }
 
+        /// <summary>
+        /// creates a new generator
+        /// </summary>
+        /// <param name="board">sets into genrator's board</param>
         public Generator(Board board)
         {
             this.Board = board;
         }
+
+        /// <summary>
+        /// insert mines into the board and put hints in the corresponding places
+        /// </summary>
+        /// <returns></returns>
         public Square[,] InsertMinesAndHints()
         {
             Random rnd=new Random();
@@ -33,6 +45,11 @@ namespace MineSweeper
             return squares;
         }
 
+        /// <summary>
+        /// put hints in the corresponding places
+        /// </summary>
+        /// <param name="squares">the squares with the mines</param>
+        /// <returns></returns>
         private Square[,] CalculateNeigbours(Square[,] squares)
         {
             NumberTile value;
@@ -54,6 +71,13 @@ namespace MineSweeper
             return squares;
         }
 
+        /// <summary>
+        /// returns the number the hint should be for a specific square
+        /// </summary>
+        /// <param name="squares">the squares with the mines</param>
+        /// <param name="x">specific square</param>
+        /// <param name="y">specific square</param>
+        /// <returns></returns>
         private static int GetNeighbourNumber(Square[,] squares, int x, int y)
         {
             int count = 0;
@@ -70,6 +94,13 @@ namespace MineSweeper
             return count;
         }
 
+        /// <summary>
+        /// checks if a specific square is a mine
+        /// </summary>
+        /// <param name="squares">the squares with the mines</param>
+        /// <param name="x">specific square</param>
+        /// <param name="y">specific square</param>
+        /// <returns></returns>
         private static bool IsMineAt(Square[,] squares, int x, int y)
         {
             if (x >= 0 && y >= 0 && x < Constants.SIZE_OF_BOARD_WIDTH && y < Constants.SIZE_OF_BOARD_HEIGHT)

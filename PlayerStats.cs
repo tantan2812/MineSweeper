@@ -2,6 +2,9 @@
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// a table for saving GamesWon, GamesPlayed, MinesFound and taking the data out
+    /// </summary>
     [Table("Stats")]
     public class PlayerStats
     {
@@ -13,6 +16,12 @@ namespace MineSweeper
         [Ignore]
         public SqlDataStats SqlDataStats { get; set; }
 
+        /// <summary>
+        /// creates a new PlayerStats
+        /// </summary>
+        /// <param name="gamesWon">the games won</param>
+        /// <param name="minesFound">the mines found</param>
+        /// <param name="gamesPlayed">the games played</param>
         public PlayerStats(int gamesWon, int minesFound, int gamesPlayed)
         {
             GamesWon = gamesWon;
@@ -20,6 +29,9 @@ namespace MineSweeper
             GamesPlayed = gamesPlayed;
         }
 
+        /// <summary>
+        /// a constractor that sets all the parameters to 0
+        /// </summary>
         public PlayerStats()
         {
             GamesWon = 0;
@@ -27,7 +39,10 @@ namespace MineSweeper
             GamesPlayed = 0;
         }
 
-
+        /// <summary>
+        /// the consractor that can be used for taking the data out of the table
+        /// </summary>
+        /// <param name="num"></param>
         public PlayerStats(int num)
         {
             SqlDataStats= new SqlDataStats();
@@ -36,10 +51,14 @@ namespace MineSweeper
             GamesPlayed = SqlDataStats.SumOfGamesPlayed();
         }
 
+        /// <summary>
+        /// returns a string that is the WinRate %
+        /// </summary>
+        /// <returns></returns>
         public string WinRate()
         {
             double NumaAvg=0;
-            NumaAvg = (double)((double)GamesWon / (double)GamesPlayed);
+            NumaAvg = (double)(GamesWon / (double)GamesPlayed);
             NumaAvg = NumaAvg * 100;
             int IntAvg = (int)NumaAvg;
             string StringAvg = IntAvg + "%";

@@ -15,6 +15,9 @@ using System.Threading;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// inherits from square, handles the mine parameters and drawing it
+    /// </summary>
     internal class Mine:Square
     {
         [JsonIgnore]
@@ -27,17 +30,31 @@ namespace MineSweeper
         public bool IsExplodedState { get; set; }
         public bool ShouldAnimate { get; set; }
         public bool IsCorner { get; set; }
+
+        /// <summary>
+        /// creates a mine and it gives it the default parameters
+        /// </summary>
+        /// <param name="context">the activity to put the view on</param>
+        /// <param name="X">specific square</param>
+        /// <param name="Y">specific square</param>
         public Mine(Context context, int X, int Y) : base(context, X, Y)
         {
             IsExploded = false;
             IsExplodedState = true;
         }
 
+        /// <summary>
+        ///  creates a mine and it gives it the default parameters
+        /// </summary>
+        /// <param name="context">the activity to put the view on</param>
         public Mine(Context context) : base(context)
         {
             IsExploded = false;
         }
 
+        /// <summary>
+        /// sets exploded parameters
+        /// </summary>
         public void HasExploded()
         {
             IsExploded=true;
@@ -48,11 +65,22 @@ namespace MineSweeper
             PostInvalidate();
         }
 
+        /// <summary>
+        /// scales the bitmap
+        /// </summary>
+        /// <param name="original">the bitmap</param>
+        /// <param name="newWidth">size of scaling</param>
+        /// <param name="newHeight">size of scaling</param>
+        /// <returns></returns>
         private Bitmap ScaleBitmap(Bitmap original, int newWidth, int newHeight)
         {
             return Bitmap.CreateScaledBitmap(original, newWidth, newHeight, true);
         }
 
+        /// <summary>
+        /// scales the bitmap and handles the drawing of a mine
+        /// </summary>
+        /// <param name="canvas">the canvas were drawing on</param>
         protected override void OnDraw(Canvas canvas)
         {
             base.OnDraw(canvas);

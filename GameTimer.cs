@@ -12,16 +12,27 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// inherits from count down, does the AFK system, when a player doesnt play for a min hi game finishes
+    /// </summary>
     internal class GameTimer : CountDownTimer
     {
         readonly Activity activity;
-        private int TotalMilisec { get; set; }
+
+        /// <summary>
+        /// creates a new timer
+        /// </summary>
+        /// <param name="totalMilisec">total time for timer to run</param>
+        /// <param name="intervalMilisec">the jump intervals</param>
+        /// <param name="activity">on which activity</param>
         public GameTimer(long totalMilisec, long intervalMilisec, Activity activity) : base(totalMilisec, intervalMilisec)
         {
             this.activity = activity;
-            TotalMilisec = (int)totalMilisec;
         }
 
+        /// <summary>
+        /// when the timer finishes, create a dialog the tells that the time is over
+        /// </summary>
         public override void OnFinish()
         {
             var bulider = new AlertDialog.Builder(activity);
@@ -31,11 +42,19 @@ namespace MineSweeper
             bulider.Create().Show();
         }
 
+        /// <summary>
+        /// implements the CountDownTimer class
+        /// </summary>
+        /// <param name="millisUntilFinished">unused</param>
         public override void OnTick(long timeLeftMilisec)
         {
-            TimeSpan ts = new TimeSpan(10000 * timeLeftMilisec);
         }
 
+        /// <summary>
+        /// when clicking the button in the dialog it force closes the game
+        /// </summary>
+        /// <param name="sender">the dialog</param>
+        /// <param name="e">not used</param>
         private void OnPositiveButtonClick(object sender, DialogClickEventArgs e)
         {
             ((Dialog)sender).Dismiss();

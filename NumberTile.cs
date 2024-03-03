@@ -13,6 +13,9 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// inherits from square, handles the numbertile parameters and drawing it
+    /// </summary>
     internal class NumberTile:Square
     {
         [JsonIgnore]
@@ -35,26 +38,52 @@ namespace MineSweeper
         public int Hint { get; set; }
         public int NeighborMinesCount { get; set; }
 
+        /// <summary>
+        /// creates a mine and it gives it the default parameters
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="X">specific square</param>
+        /// <param name="Y">specific square</param>
         public NumberTile(Context context, int X, int Y) : base(context, X, Y)
         {
             NeighborMinesCount = 0;
         }
-        
+
+        /// <summary>
+        /// creates a mine and it gives it the default parameters
+        /// </summary>
+        /// <param name="context"></param>
         public NumberTile(Context context) : base(context)
         {
             NeighborMinesCount = 0;
         }
 
+        /// <summary>
+        /// set hint func and draws it
+        /// </summary>
+        /// <param name="value"></param>
         public void SetHint(int value)
         {
             Hint = value;
             Invalidate();
         }
 
+        /// <summary>
+        /// scales the bitmap
+        /// </summary>
+        /// <param name="original">the bitmap</param>
+        /// <param name="newWidth">size of scaling</param>
+        /// <param name="newHeight">size of scaling</param>
+        /// <returns></returns>
         private Bitmap ScaleBitmap(Bitmap original, int newWidth, int newHeight)
         {
             return Bitmap.CreateScaledBitmap(original, newWidth, newHeight, true);
         }
+
+        /// <summary>
+        /// scales the bitmap and handles the drawing of a hint
+        /// </summary>
+        /// <param name="canvas">the canvas were drawing on</param>
         protected override void OnDraw(Canvas canvas)
         {
             base.OnDraw(canvas);

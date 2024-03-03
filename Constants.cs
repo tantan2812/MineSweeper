@@ -11,6 +11,9 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// consts for readability
+    /// </summary>
     internal class Constants
     {
         public const int GAME_REUEST = 1;

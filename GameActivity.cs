@@ -14,6 +14,9 @@ using static Xamarin.Grpc.InternalChannelz;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// creates the board and the game, also handles text to speech
+    /// </summary>
     [Activity(Label = "GameActivity")]
     public class GameActivity : AppCompatActivity, IOnCompleteListener, IEventListener, TextToSpeech.IOnInitListener
     {
@@ -23,6 +26,10 @@ namespace MineSweeper
         private Context context;
         TextToSpeech tts;
 
+        /// <summary>
+        /// creates the game and sets the text to speech, sends parameters to gameengine. create the activity and the board with it 
+        /// </summary>
+        /// <param name="savedInstanceState">used in base</param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -42,6 +49,9 @@ namespace MineSweeper
             
         }
 
+        /// <summary>
+        /// creates the game and sets the text to speech, sends parameters to gameengine.
+        /// </summary>
         private void InitObjects()
         {
             GameEngine.GetInstance().Activity=this;
@@ -53,6 +63,10 @@ namespace MineSweeper
             GameEngine.GetInstance().PlayerName = Intent.GetStringExtra(General.KEY_NAME);
         }
 
+        /// <summary>
+        /// if task is successful it send a toast that says the game is created and if it isnt it sends the error
+        /// </summary>
+        /// <param name="task">the task of the game</param>
         public void OnComplete(Task task)
         {
             string msg;
@@ -64,6 +78,9 @@ namespace MineSweeper
                 Toast.MakeText(this, msg, ToastLength.Long).Show();
         }
 
+        /// <summary>
+        /// when the player closes the activity, delete the game and stop the timer
+        /// </summary>
         protected override void OnPause()
         {
             game.Exit();
@@ -82,6 +99,10 @@ namespace MineSweeper
             }
         }
 
+        /// <summary>
+        /// tells the text to speech to say game start
+        /// </summary>
+        /// <param name="status"></param>
         public void OnInit([GeneratedEnum] OperationResult status)
         {
             tts.Speak("Game Start!", QueueMode.Flush, null, null);

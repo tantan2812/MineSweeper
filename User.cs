@@ -13,6 +13,9 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// hansled the parameters of the user and sends it to firebase and shared prefrence
+    /// </summary>
     internal class User
     {
         private string name, email, password;
@@ -52,6 +55,10 @@ namespace MineSweeper
                 password = value.Trim();
             }
         }
+
+        /// <summary>
+        /// sends the user parameters to shared prefrence
+        /// </summary>
         public User()
         {
             fbd = new FbData();
@@ -63,6 +70,10 @@ namespace MineSweeper
                 password = spd.GetString(General.KEY_PWD, string.Empty);
             }
         }
+
+        /// <summary>
+        /// checks if the parameters are valid
+        /// </summary>
         public bool IsValidFields =>
                 Name.Length >= General.MIN_LENGTH &&
                 Email.Length >= General.MIN_LENGTH &&
@@ -71,6 +82,10 @@ namespace MineSweeper
         public bool Connected => fbd.UserConnected;
         public bool IsEmailVerifid => fbd.IsEmailVerifid;
 
+        /// <summary>
+        /// creates a user with email and password throught firebase
+        /// </summary>
+        /// <returns></returns>
         public Task CreateFbUser()
         {
             return fbd.CreateUser(email, password);
@@ -90,11 +105,18 @@ namespace MineSweeper
             return fbd.SignIn(email, password);
         }
 
+        /// <summary>
+        /// sends a verify email to the user
+        /// </summary>
+        /// <returns></returns>
         internal Task SendFbVerifyEmail()
         {
             return fbd.SendVerifyEmail();
         }
 
+        /// <summary>
+        /// saves the user in shared prefrence
+        /// </summary>
         internal void Save()
         {
             spd.PutString(General.KEY_NAME, name);

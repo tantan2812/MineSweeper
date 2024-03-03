@@ -5,15 +5,24 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.AppCompat.App;
 using System;
+using System.Threading;
 using Intent = Android.Content.Intent;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// the mainactivity, has all the button that lead to other places in the app, and has a menu with all the rules
+    /// </summary>
     [Activity(Label = "@string/app_name", Theme = "@style/AppTheme")]
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         TextView tvGoRules, tvGoRulesAnswer, tvCurrent;
         Button btnGoGame, btnGoStats, btnGoLeaderBoard;
+
+        /// <summary>
+        /// creates the activity, and sets the XML
+        /// </summary>
+        /// <param name="savedInstanceState">used in base</param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -22,6 +31,9 @@ namespace MineSweeper
             InitViews();
         }
 
+        /// <summary>
+        /// connects all the views to the XML and sets listeners to the button and register the menu
+        /// </summary>
         private void InitViews()
         {
             tvGoRules = FindViewById<TextView>(Resource.Id.tvGoRules);
@@ -42,6 +54,12 @@ namespace MineSweeper
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        /// <summary>
+        /// creates the menu
+        /// </summary>
+        /// <param name="menu">the menu</param>
+        /// <param name="v">on which view should i create the menu on</param>
+        /// <param name="menuInfo">used in the base fanction</param>
         public override void OnCreateContextMenu(Android.Views.IContextMenu menu, Android.Views.View v, Android.Views.IContextMenuContextMenuInfo menuInfo)
         {
             tvCurrent = (TextView)v;
@@ -50,13 +68,38 @@ namespace MineSweeper
             base.OnCreateContextMenu(menu, v, menuInfo);
         }
 
+        /// <summary>
+        /// when an item is clicked i put an answer in the intended place with animation
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public override bool OnContextItemSelected(Android.Views.IMenuItem item)
         {
             tvCurrent.Text = item.TitleFormatted.ToString();
-            tvGoRulesAnswer.Text= item.TooltipTextFormatted.ToString();
+            ParameterizedThreadStart ts = new ParameterizedThreadStart(Anim);
+            Thread t = new Thread(ts);
+            t.Start(item.TooltipTextFormatted.ToString());
             return base.OnContextItemSelected(item);
         }
 
+        /// <summary>
+        /// animates the text and the menu to write itself in front of the user
+        /// </summary>
+        /// <param name="str"></param>
+        private void Anim(object str)
+        {
+            string text = (string)str;
+            for (int i = 0; i <= text.Length; i++)
+            {
+                RunOnUiThread(() => { tvGoRulesAnswer.Text = text[..i]; });
+                Thread.Sleep(50);
+            }
+        }
+
+        /// <summary>
+        /// happens when the user clicks on a button, goes to a diffrent function depending on the button
+        /// </summary>
+        /// <param name="v">the button clicked</param>
         public void OnClick(View v)
         {
             if (v == btnGoGame)
@@ -68,6 +111,9 @@ namespace MineSweeper
                 OpenLeaderboardActivitys();
         }
 
+        /// <summary>
+        /// opens the leaderboard activity with the intent of the name of the user
+        /// </summary>
         private void OpenLeaderboardActivitys()
         {
             Intent intent = new Intent(this, typeof(LeaderboardActivity));
@@ -75,13 +121,19 @@ namespace MineSweeper
             StartActivity(intent);
         }
 
+        /// <summary>
+        /// opens the game activity with the intent of the name of the user
+        /// </summary>
         private void OpenGamesActivitys()
         {
             Intent intent = new Intent(this, typeof(GameActivity));
             intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
             StartActivity(intent);
         }
- 
+
+        /// <summary>
+        /// opens the statistic activity with the intent of the name of the user
+        /// </summary>
         private void OpenStatActivitys()
         {
             Intent intent = new Intent(this, typeof(StatisticActivity));
