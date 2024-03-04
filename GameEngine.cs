@@ -208,16 +208,26 @@ namespace MineSweeper
         {
             if(!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsRevealed)
             {
-                NumOfClicks++;
-                bool isFlagged = GetCellAt(x, y).IsFlagged;
-                GetCellAt(x, y).SetFlagged(!isFlagged);
-                GetCellAt(x, y).Invalidate();
-                if(GetCellAt(x, y) is Mine)
+                if (NumOfClicks == 0)
+                    Toast.MakeText(Context, "start playing to flag", ToastLength.Long).Show();
+                else
                 {
-                    PlayerStats.MinesFound++;
-                    SqlStats.Update(PlayerStats);
-                    Score--;
-                    tvScoreNow.Text = Score.ToString();
+                    NumOfClicks++;
+                    bool isFlagged = GetCellAt(x, y).IsFlagged;
+                    GetCellAt(x, y).SetFlagged(!isFlagged);
+                    if (isFlagged)
+                        Score++;
+                    else if (!isFlagged)
+                        Score--;
+                    GetCellAt(x, y).Invalidate();
+                    if (GetCellAt(x, y) is Mine)
+                    {
+                        PlayerStats.MinesFound++;
+                        SqlStats.Update(PlayerStats);
+                        if (tvScoreNow == null)
+                            tvScoreNow = Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
+                        tvScoreNow.Text = Score.ToString();
+                    }              
                 }
             }
         }

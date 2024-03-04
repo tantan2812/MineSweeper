@@ -18,6 +18,7 @@ namespace MineSweeper
     {
         TextView tvGoRules, tvGoRulesAnswer, tvCurrent;
         Button btnGoGame, btnGoStats, btnGoLeaderBoard;
+        Thread thread;
 
         /// <summary>
         /// creates the activity, and sets the XML
@@ -45,6 +46,7 @@ namespace MineSweeper
             btnGoStats.SetOnClickListener(this);
             btnGoLeaderBoard.SetOnClickListener(this);
             RegisterForContextMenu(tvGoRules);
+            thread = new Thread(new ThreadStart(() => { return; }));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
@@ -75,10 +77,11 @@ namespace MineSweeper
         /// <returns></returns>
         public override bool OnContextItemSelected(Android.Views.IMenuItem item)
         {
+            thread.Abort();
             tvCurrent.Text = item.TitleFormatted.ToString();
             ParameterizedThreadStart ts = new ParameterizedThreadStart(Anim);
-            Thread t = new Thread(ts);
-            t.Start(item.TooltipTextFormatted.ToString());
+            thread = new Thread(ts);
+            thread.Start(item.TooltipTextFormatted.ToString());
             return base.OnContextItemSelected(item);
         }
 

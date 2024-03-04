@@ -20,12 +20,8 @@ namespace MineSweeper
     /// </summary>
     internal class Mine:Square
     {
-        [JsonIgnore]
-        public Bitmap MineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_normal);
-        [JsonIgnore]
         public Bitmap ExploededMineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_exploded);
-
-
+        public Bitmap MineCell = BitmapFactory.DecodeResource(Application.Context.Resources, Resource.Drawable.bomb_normal);
         public bool IsExploded { get; set; }
         public bool IsCorner { get; set; }
 
@@ -82,22 +78,12 @@ namespace MineSweeper
             base.OnDraw(canvas);
             int scaledWidth = Width;
             int scaledHeight = Height;
-            Bitmap ScaledMineCell = ScaleBitmap(MineCell, scaledWidth, scaledHeight);
             Bitmap ScaledExploededMineCell = ScaleBitmap(ExploededMineCell, scaledWidth, scaledHeight);
-            if(IsRevealed&&IsExploded)
+            Bitmap ScaledMineCell = ScaleBitmap(MineCell, scaledWidth, scaledHeight);
+            if(IsRevealed)
             {
                 canvas.DrawBitmap(ScaledMineCell, 0, 0, null);
             }
-        }
-
-        public void StopAnimation()
-        {
-            ShouldAnimate = false; 
-            IsClicked=false;
-            IsRevealed=false;
-            IsFlagged = false;
-            Handler.RemoveCallbacksAndMessages(null);
-            Invalidate();
         }
     }
 }
