@@ -27,8 +27,6 @@ namespace MineSweeper
 
 
         public bool IsExploded { get; set; }
-        public bool IsExplodedState { get; set; }
-        public bool ShouldAnimate { get; set; }
         public bool IsCorner { get; set; }
 
         /// <summary>
@@ -40,7 +38,6 @@ namespace MineSweeper
         public Mine(Context context, int X, int Y) : base(context, X, Y)
         {
             IsExploded = false;
-            IsExplodedState = true;
         }
 
         /// <summary>
@@ -60,7 +57,6 @@ namespace MineSweeper
             IsExploded=true;
             IsRevealed=true;
             IsClicked=true;
-            ShouldAnimate=true;
             Invalidate();
             PostInvalidate();
         }
@@ -88,24 +84,10 @@ namespace MineSweeper
             int scaledHeight = Height;
             Bitmap ScaledMineCell = ScaleBitmap(MineCell, scaledWidth, scaledHeight);
             Bitmap ScaledExploededMineCell = ScaleBitmap(ExploededMineCell, scaledWidth, scaledHeight);
-            if (IsExploded&& ShouldAnimate)
+            if(IsRevealed&&IsExploded)
             {
-
-                if (IsExplodedState)
-                    canvas.DrawBitmap(ScaledExploededMineCell, 0, 0, null);
-                else
-                    canvas.DrawBitmap(ScaledMineCell, 0, 0, null);
-                IsExplodedState = !IsExplodedState;
-                Handler.PostDelayed(() =>
-                {
-                    if (ShouldAnimate)
-                    {
-                        Invalidate();
-                    }
-                }, 100);
-            }
-            else if (IsRevealed)
                 canvas.DrawBitmap(ScaledMineCell, 0, 0, null);
+            }
         }
 
         public void StopAnimation()

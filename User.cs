@@ -90,16 +90,18 @@ namespace MineSweeper
         {
             return fbd.CreateUser(email, password);
         }
-        public Task DeleteFbUser()
-        {
 
-            return fbd.DeleteUser();
-        }
-
+        /// <summary>
+        /// Updates the display name of the currently logged-in user.
+        /// </summary>
         public Task UpdateFbUserName()
         {
             return fbd.UpdateUserName(name);
         }
+
+        /// <summary>
+        /// Signs in an existing user with the specified email and password.
+        /// </summary>
         public Task SignIn()
         {
             return fbd.SignIn(email, password);
@@ -122,13 +124,6 @@ namespace MineSweeper
             spd.PutString(General.KEY_NAME, name);
             spd.PutString(General.KEY_EMAIL, email);
             spd.PutString(General.KEY_PWD, password);
-        }
-        internal bool UnSave()
-        {
-            email = string.Empty;
-            name = string.Empty;
-            password = string.Empty;
-            return spd.Delete();
         }
     }
 }

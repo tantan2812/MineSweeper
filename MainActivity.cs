@@ -85,7 +85,7 @@ namespace MineSweeper
         /// <summary>
         /// animates the text and the menu to write itself in front of the user
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="str">the text to animate</param>
         private void Anim(object str)
         {
             string text = (string)str;
@@ -103,8 +103,7 @@ namespace MineSweeper
         public void OnClick(View v)
         {
             if (v == btnGoGame)
-                OpenGamesActivitys();
-           
+                OpenGameActivitys();          
             if (v== btnGoStats)
                 OpenStatActivitys();
             if (v == btnGoLeaderBoard)
@@ -124,7 +123,7 @@ namespace MineSweeper
         /// <summary>
         /// opens the game activity with the intent of the name of the user
         /// </summary>
-        private void OpenGamesActivitys()
+        private void OpenGameActivitys()
         {
             Intent intent = new Intent(this, typeof(GameActivity));
             intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));

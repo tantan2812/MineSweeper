@@ -14,6 +14,9 @@ using System.Text;
 
 namespace MineSweeper
 {
+    /// <summary>
+    /// Activity for user sign-up and sign-in operations using Firebase Authentication.
+    /// </summary>
     [Activity(Label = "@string/app_name", MainLauncher = true)]
     public class SignUpActivity : AppCompatActivity,View.IOnClickListener, IOnCompleteListener
     {
@@ -22,6 +25,13 @@ namespace MineSweeper
         TextView tvDisplay;
         private User user;
         private Task tskCreateFbUser, tskUpdateFbUserName, tskSendFbVerifyEmail, tskSignIn;
+
+        /// <summary>
+        /// Called when the activity is starting.
+        /// </summary>
+        /// <param name="savedInstanceState">If the activity is being re-initialized after previously being shut down
+        /// then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle).
+        /// Note: Otherwise it is null.</param>
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -31,12 +41,19 @@ namespace MineSweeper
             InitViews();
         }
 
+        /// <summary>
+        /// creates a new user
+        /// </summary>
         private void InitObjects()
         {
             user = new User();
 
         }
 
+        /// <summary>
+        /// creates the activity, and sets the XML. also checks if the user isnt new and handles the screen accordingly
+        /// </summary>
+        /// <param name="savedInstanceState">used in base</param>
         private void InitViews()
         {
             etName = FindViewById<EditText>(Resource.Id.etName);
@@ -56,12 +73,18 @@ namespace MineSweeper
             }
         }
 
+        /// <summary>
+        /// Called when a permission request has been completed.
+        /// </summary>
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        /// <summary>
+        /// Called when a view has been clicked.
+        /// </summary>
         public void OnClick(View v)
         {
             if (v == btnRegister)
@@ -70,11 +93,17 @@ namespace MineSweeper
                 SignIn();
         }
 
+        /// <summary>
+        /// Attempts to sign in the user with the provided credentials.
+        /// </summary>
         private void SignIn()
         {
             tskSignIn = user.SignIn().AddOnCompleteListener(this);
         }
 
+        /// <summary>
+        /// Attempts to create a new user account and send a verification email.
+        /// </summary>
         private void CreateUserAndSendVerifyEmail()
         {
             user.Name = etName.Text;
@@ -89,6 +118,10 @@ namespace MineSweeper
                 tvDisplay.Text = GetString(Resource.String.fields_not_valid);
         }
 
+        /// <summary>
+        /// Handles the completion of a Firebase Authentication task.
+        /// </summary>
+        /// <param name="task">The task that has been completed.</param>
         public void OnComplete(Task task)
         {
             string msg = string.Empty;
@@ -116,7 +149,7 @@ namespace MineSweeper
                     if (!user.IsEmailVerifid)
                         msg += GetString(Resource.String.not) + "\n";
                     msg += GetString(Resource.String.verifide);
-                    OpenGamesActivity();
+                    OpenMainActivity();
                 }
             }
             else
@@ -124,7 +157,10 @@ namespace MineSweeper
             tvDisplay.Text = msg;
         }
 
-        private void OpenGamesActivity()
+        /// <summary>
+        /// Opens the main activity.
+        /// </summary>
+        private void OpenMainActivity()
         {
             Intent intent = new Intent(this, typeof(MainActivity));
             intent.PutExtra(General.KEY_NAME, user.Name);
@@ -132,6 +168,9 @@ namespace MineSweeper
             Finish();
         }
 
+        /// <summary>
+        /// Enables or disables the register and sign-in buttons based on the current state.
+        /// </summary>
         private void HandleButtons(bool isSignInState)
         {
             btnRegister.Enabled = !isSignInState;

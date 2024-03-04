@@ -5,8 +5,11 @@ using Android.Media;
 using Android.Widget;
 using MineSweeper;
 
-namespace ServiceSample
+namespace MineSweeper
 {
+    /// <summary>
+    /// Broadcast receiver for handling image animation based on received intents.
+    /// </summary>
     [BroadcastReceiver]
     public class AnimationReceiver : BroadcastReceiver
     {
@@ -15,6 +18,12 @@ namespace ServiceSample
         ImageView myPicture3;
         ImageView myPicture4;
         ImageView myPicture5;
+
+        /// <summary>
+        /// Called when the broadcast receiver receives an intent.
+        /// </summary>
+        /// <param name="context">The Context in which the receiver is running.</param>
+        /// <param name="intent">The Intent being received.</param>
         public override void OnReceive(Context context, Intent intent)
         {
             int resourceId, num = 0;
@@ -48,6 +57,14 @@ namespace ServiceSample
             }
         }
 
+        /// <summary>
+        /// Constructor for initializing the receiver with specific ImageView objects.
+        /// </summary>
+        /// <param name="myImage1">The first ImageView object.</param>
+        /// <param name="myImage2">The second ImageView object.</param>
+        /// <param name="myImage3">The third ImageView object.</param>
+        /// <param name="myImage4">The fourth ImageView object.</param>
+        /// <param name="myImage5">The fifth ImageView object.</param>
         public AnimationReceiver(ImageView myImage1, ImageView myImage2, ImageView myImage3, ImageView myImage4, ImageView myImage5)
         {
             myPicture1 = myImage1;
@@ -57,6 +74,9 @@ namespace ServiceSample
             myPicture5 = myImage5;
         }
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public AnimationReceiver() { }
     }
 }

@@ -17,7 +17,7 @@ namespace MineSweeper
     internal class LeaderboardPlayer
     {
         public string Name { get; set; }
-        public long IntTime { get; set; }
+        public int IntTime { get; set; }
         public string StringTime { get; set; }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace MineSweeper
         /// </summary>
         /// <param name="name">name of player</param>
         /// <param name="time">time it took to beat the game</param>
-        public LeaderboardPlayer(string name, long time)
+        public LeaderboardPlayer(string name, int time)
         {
             Name = name;
             IntTime = time;
@@ -37,10 +37,10 @@ namespace MineSweeper
         /// </summary>
         public void SetTimeFormat()
         {
-            long temp = IntTime;
-            long min = temp / 60;
-            long sec = temp & 60;
-            StringTime = min + ": " + sec;
+            int temp = IntTime;
+            int min = temp / 60;
+            int sec = temp & 60;
+            StringTime = $"{min:D2} min {sec:D2} sec";
         }
     }
 }

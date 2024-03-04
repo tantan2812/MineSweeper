@@ -1,7 +1,6 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Widget;
-using ServiceSample;
 using Intent = Android.Content.Intent;
 using Android.OS;
 using Java.Util;
@@ -32,9 +31,7 @@ namespace MineSweeper
         public Chronometer chrono;
         public GameTimer cd;
         TextView tvScoreNow;
-        private FbData fbd;
         public string PlayerName { get; set; }
-
         private int NumOfClicks { get; set; }
         private int Score { get; set; }
         private bool IsWon { get; set; }
@@ -153,7 +150,6 @@ namespace MineSweeper
             Board.RevealBoard();
         }
 
-
         /// <summary>
         /// handles clicks, start chrono timer on first click, start the afk timer again,
         /// increase the number of clicks, reveal the cell and open the board if there is space,
@@ -175,7 +171,8 @@ namespace MineSweeper
                 cd.Cancel();
                 cd = new GameTimer(60000, 1000, (Activity)Context);
                 cd.Start();
-                NumOfClicks++;
+                if (GetCellAt(x, y) is NumberTile || GetCellAt(x, y) is Mine)
+                    NumOfClicks++;
                 GetCellAt(x, y).Revealed();
                 if (!(GetCellAt(x, y) is NumberTile)&&!(GetCellAt(x, y) is Mine))
                     for (int xt = -1; xt <= 1; xt++)
@@ -266,11 +263,11 @@ namespace MineSweeper
         /// takes the time the timer finished in and coverts it to numeric value
         /// </summary>
         /// <returns></returns>
-        private long ChronometerToNumericValue()
+        private int ChronometerToNumericValue()
         {
             long baseTime = chrono.Base;
             long currentElapsedTime = SystemClock.ElapsedRealtime();
-            long elapsedTimeInSeconds = (currentElapsedTime - baseTime) / 1000;
+            int elapsedTimeInSeconds = (int)((currentElapsedTime - baseTime) / 1000);
             return elapsedTimeInSeconds;
         }
 
@@ -280,7 +277,7 @@ namespace MineSweeper
         public void SentTimeToFirebase()
         {
             HashMap hashMap = new HashMap();
-            fbd = new FbData();
+            FbData fbd = new FbData();
             hashMap.Put(General.FIELD_NAME, PlayerName);
             hashMap.Put(General.FIELD_WIN_TIME, ChronometerToNumericValue());
             fbd.SetDocument(General.TIMES_COLLECTION, string.Empty, out string id, hashMap);
