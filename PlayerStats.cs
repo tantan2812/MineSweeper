@@ -42,7 +42,7 @@ namespace MineSweeper
         /// <summary>
         /// the consractor that can be used for taking the data out of the table
         /// </summary>
-        /// <param name="num"></param>
+        /// <param name="num">random num, just to use this constractor and not the empty one</param>
         public PlayerStats(int num)
         {
             SqlDataStats= new SqlDataStats();
@@ -57,9 +57,8 @@ namespace MineSweeper
         /// <returns></returns>
         public string WinRate()
         {
-            double NumaAvg=0;
-            NumaAvg = (double)(GamesWon / (double)GamesPlayed);
-            NumaAvg = NumaAvg * 100;
+            double NumaAvg = (double)(GamesWon / (double)GamesPlayed);
+            NumaAvg *= 100;
             int IntAvg = (int)NumaAvg;
             string StringAvg = IntAvg + "%";
             return StringAvg;

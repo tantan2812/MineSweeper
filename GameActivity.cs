@@ -1,16 +1,9 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Gms.Tasks;
 using Android.OS;
 using Android.Runtime;
 using Android.Speech.Tts;
-using Android.Util;
-using Android.Views;
-using Android.Widget;
 using AndroidX.AppCompat.App;
-using Firebase.Firestore;
-using System;
-using static Xamarin.Grpc.InternalChannelz;
 
 namespace MineSweeper
 {
@@ -41,7 +34,7 @@ namespace MineSweeper
         {
             GameEngine.GetInstance().Activity=this;           
             tts = new TextToSpeech(this, this);
-            tts.Speak("Game Start!", QueueMode.Flush,null,null);
+            tts.Speak(Constants.TEXT_TO_SPEECH_GAME_START, QueueMode.Flush,null,null);
             GameEngine.GetInstance().PlayerName = Intent.GetStringExtra(General.KEY_NAME);
         }
 
@@ -60,7 +53,7 @@ namespace MineSweeper
         /// <param name="status"></param>
         public void OnInit([GeneratedEnum] OperationResult status)
         {
-            tts.Speak("Game Start!", QueueMode.Flush, null, null);
+            tts.Speak(Constants.TEXT_TO_SPEECH_GAME_START, QueueMode.Flush, null, null);
         }
     }
 }

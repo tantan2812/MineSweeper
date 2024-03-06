@@ -13,24 +13,24 @@ namespace MineSweeper
     internal class GameEngine
     {
         private static GameEngine Instance;
-        public Context Context;
+        private Context Context;
         public Activity Activity;
-        public AnimationReceiver myAnimationReceiver;
+        private AnimationReceiver myAnimationReceiver;
         public static readonly int BOMB_NUMBER = Constants.NUMBER_OF_MINES;
         public static readonly int WIDTH = Constants.SIZE_OF_BOARD_WIDTH;
         public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
-        public Board Board { get; set; }
-        public PlayerStats PlayerStats { get; set; }
-        public SqlDataStats SqlStats { get; set; }
-        private Dialog winDialog { get; set; }
+        private Board Board { get; set; }
+        private PlayerStats PlayerStats { get; set; }
+        private SqlDataStats SqlStats { get; set; }
+        private Dialog WinDialog { get; set; }
         private ImageView img1;
         private ImageView img2;
         private ImageView img3;
         private ImageView img4;
         private ImageView img5;
-        public Chronometer chrono;
+        private Chronometer chrono;
         public GameTimer cd;
-        TextView tvScoreNow;
+        private TextView tvScoreNow;
         public string PlayerName { get; set; }
         private int NumOfClicks { get; set; }
         private int Score { get; set; }
@@ -67,17 +67,6 @@ namespace MineSweeper
             IsWon = false;
         }
 
-        public void SetBoard(Board board)
-        {
-            for (int i = 0; i < WIDTH; i++)
-                for (int j = 0; j < HEIGHT; j++)
-                {
-                    Board.Squares[i, j] = board.Squares[i, j];
-                    Board.Squares[i, j].BringToFront();
-                    //Board.Squares[i, j].Context = Context;
-                }
-        }
-
         /// <summary>
         /// gets a cell from the board
         /// </summary>
@@ -89,7 +78,6 @@ namespace MineSweeper
             int y = position / WIDTH;
             Board.Squares[x, y].PostInvalidate();
             return Board.Squares[x, y];
-
         }
 
         /// <summary>
@@ -127,7 +115,7 @@ namespace MineSweeper
                 if (IsWon == false)
                 {
                     IsWon = true;
-                    Toast.MakeText(Context, "Game won", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Constants.GAME_WOM, ToastLength.Long).Show();
                     chrono.Stop();
                     cd.Cancel();
                     ShowWinDialog();
@@ -194,7 +182,7 @@ namespace MineSweeper
         {
             Score = BOMB_NUMBER;
             tvScoreNow.Text = Score.ToString();
-            Toast.MakeText(Context, "Mine Clicked, try again", ToastLength.Long).Show();
+            Toast.MakeText(Context, Constants.MINE_CLICKED, ToastLength.Long).Show();
             ((Mine)GetCellAt(x, y)).HasExploded();
             Board.UnRevealBoard();
         }
@@ -209,7 +197,7 @@ namespace MineSweeper
             if(!GetCellAt(x, y).IsClicked&& !GetCellAt(x, y).IsRevealed)
             {
                 if (NumOfClicks == 0)
-                    Toast.MakeText(Context, "start playing to flag", ToastLength.Long).Show();
+                    Toast.MakeText(Context, Constants.FIRST_FLAG, ToastLength.Long).Show();
                 else
                 {
                     NumOfClicks++;
@@ -224,8 +212,7 @@ namespace MineSweeper
                     {
                         PlayerStats.MinesFound++;
                         SqlStats.Update(PlayerStats);
-                        if (tvScoreNow == null)
-                            tvScoreNow = Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
+                        tvScoreNow ??= Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
                         tvScoreNow.Text = Score.ToString();
                     }              
                 }
@@ -255,18 +242,18 @@ namespace MineSweeper
         /// </summary>
         private void ShowWinDialog()
         {
-            winDialog = new Dialog(Activity);
-            winDialog.SetContentView(Resource.Layout.win_dialog);
-            img1 = winDialog.FindViewById<ImageView>(Resource.Id.animation1);
-            img2 = winDialog.FindViewById<ImageView>(Resource.Id.animation2);
-            img3 = winDialog.FindViewById<ImageView>(Resource.Id.animation3);
-            img4 = winDialog.FindViewById<ImageView>(Resource.Id.animation4);
-            img5 = winDialog.FindViewById<ImageView>(Resource.Id.animation5);
-            TextView nm = winDialog.FindViewById<TextView>(Resource.Id.clicks);
+            WinDialog = new Dialog(Activity);
+            WinDialog.SetContentView(Resource.Layout.win_dialog);
+            img1 = WinDialog.FindViewById<ImageView>(Resource.Id.animation1);
+            img2 = WinDialog.FindViewById<ImageView>(Resource.Id.animation2);
+            img3 = WinDialog.FindViewById<ImageView>(Resource.Id.animation3);
+            img4 = WinDialog.FindViewById<ImageView>(Resource.Id.animation4);
+            img5 = WinDialog.FindViewById<ImageView>(Resource.Id.animation5);
+            TextView nm = WinDialog.FindViewById<TextView>(Resource.Id.clicks);
             nm.Text=NumOfClicks.ToString();
             StartAnimation(img1, img2, img3, img4, img5);
-            winDialog.SetCancelable(true);
-            winDialog.Show();
+            WinDialog.SetCancelable(true);
+            WinDialog.Show();
         }
 
         /// <summary>

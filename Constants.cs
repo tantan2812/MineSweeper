@@ -16,13 +16,12 @@ namespace MineSweeper
     /// </summary>
     internal class Constants
     {
-        public const int GAME_REUEST = 1;
-        public const string SCORE_KEY = "score";
-        public const int TEXT_SIZE = 100;
         public const int NUMBER_OF_MINES= 10;
         public const int SIZE_OF_BOARD_WIDTH= 8;
         public const int SIZE_OF_BOARD_HEIGHT= 8;
-        public const int SIZE_OF_CELL_HEIGHT= 8;
-        public const int SIZE_OF_CELL_WIDTH = 8;
+        public const string GAME_WOM = "Game won";
+        public const string MINE_CLICKED = "Mine Clicked, try again";
+        public const string FIRST_FLAG = "start playing to flag";
+        public const string TEXT_TO_SPEECH_GAME_START = "Game Start!";
     }
 }

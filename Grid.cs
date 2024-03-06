@@ -12,7 +12,6 @@ namespace MineSweeper
     /// </summary>
     public class Grid : GridView
     {
-        public Board Board { get; set; }
         Context ContextGird { get; set; }
 
         /// <summary>
@@ -24,35 +23,6 @@ namespace MineSweeper
         {
             ContextGird = context;
             GameEngine.GetInstance().CreateGrid(ContextGird);
-            Board = GameEngine.GetInstance().Board;
-            SetNumColumns(GameEngine.WIDTH);
-            Adapter = new GridAdapter();
-        }
-
-        public Grid(Context context, Board board) : base(context)
-        {
-            Board = board;
-            Board.Context = context;
-            GameEngine.GetInstance().Context = context;
-            //Board = Board.CreateCopyBoard(Board);
-            GameEngine.GetInstance().Board = Board;
-            GameEngine.GetInstance().SetBoard(GameEngine.GetInstance().Board);
-            GameEngine.GetInstance().Board.InvalidateSquares();
-            SetNumColumns(GameEngine.WIDTH);
-            Adapter = new GridAdapter();
-        }
-
-        public Grid(Context context) : base(context) { }
-
-        public void UpdateBoard(Board board, Context context)
-        {
-            Board=board;
-            Board.Context = ContextGird;
-            GameEngine.GetInstance().Context=ContextGird;
-            //Board = Board.CreateCopyBoard(Board);
-            GameEngine.GetInstance().Board=Board;
-            GameEngine.GetInstance().SetBoard(GameEngine.GetInstance().Board);
-            GameEngine.GetInstance().Board.InvalidateSquares();
             SetNumColumns(GameEngine.WIDTH);
             Adapter = new GridAdapter();
         }
@@ -103,7 +73,7 @@ namespace MineSweeper
             /// <param name="position">position of view</param>
             /// <param name="convertView">unused</param>
             /// <param name="parent">unused</param>
-            /// <returns></returns>
+            /// <returns>the view</returns>
             public override View GetView(int position, View convertView, ViewGroup parent)
             {
                 View v =  GameEngine.GetInstance().GetCellAt(position);
