@@ -28,12 +28,12 @@ namespace MineSweeper
         public Square[,] InsertMinesAndHints()
         {
             Random rnd=new Random();
-            int mines = Constants.NUMBER_OF_MINES;
+            int mines = GameEngine.BOMB_NUMBER;
             Square[,] squares = Board.Squares;
             while (mines > 0)
             {
-                int x = rnd.Next(Constants.SIZE_OF_BOARD_WIDTH);
-                int y = rnd.Next(Constants.SIZE_OF_BOARD_HEIGHT);
+                int x = rnd.Next(GameEngine.WIDTH);
+                int y = rnd.Next(GameEngine.HEIGHT);
                 if (IsMineAt(squares, x, y) == false)
                 {
                     squares[x, y] = new Mine(Board.Context,x,y);
@@ -53,9 +53,9 @@ namespace MineSweeper
         private Square[,] CalculateNeigbours(Square[,] squares)
         {
             NumberTile value;
-            for (int x = 0; x < Constants.SIZE_OF_BOARD_WIDTH; x++)
+            for (int x = 0; x < GameEngine.WIDTH; x++)
             {
-                for (int y = 0; y < Constants.SIZE_OF_BOARD_HEIGHT; y++)
+                for (int y = 0; y < GameEngine.HEIGHT; y++)
                     if (IsMineAt(squares, x, y) == false)
                     {
                         value=new NumberTile(Board.GetContext(),x, y);
@@ -103,7 +103,7 @@ namespace MineSweeper
         /// <returns></returns>
         private static bool IsMineAt(Square[,] squares, int x, int y)
         {
-            if (x >= 0 && y >= 0 && x < Constants.SIZE_OF_BOARD_WIDTH && y < Constants.SIZE_OF_BOARD_HEIGHT)
+            if (x >= 0 && y >= 0 && x < GameEngine.WIDTH && y < GameEngine.HEIGHT)
                 if (squares[x, y] is Mine)
                     return true;
             return false;

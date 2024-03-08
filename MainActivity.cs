@@ -106,7 +106,7 @@ namespace MineSweeper
         public void OnClick(View v)
         {
             if (v == btnGoGame)
-                OpenGameActivitys();          
+                OpenDiffiultyActivitys();          
             if (v== btnGoStats)
                 OpenStatActivitys();
             if (v == btnGoLeaderBoard)
@@ -124,11 +124,11 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// opens the game activity with the intent of the name of the user
+        /// opens the difficulty activity with the intent of the name of the user
         /// </summary>
-        private void OpenGameActivitys()
+        private void OpenDiffiultyActivitys()
         {
-            Intent intent = new Intent(this, typeof(GameActivity));
+            Intent intent = new Intent(this, typeof(DifficultyActivity));
             intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
             StartActivity(intent);
         }

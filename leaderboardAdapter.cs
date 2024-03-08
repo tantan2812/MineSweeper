@@ -66,8 +66,10 @@ namespace MineSweeper
             LeaderboardPlayer lbp = lstLeaderboardPlayer[position];
             TextView tvPlayer = v.FindViewById<TextView>(Resource.Id.tvPlayer);
             TextView tvTimeToWin = v.FindViewById<TextView>(Resource.Id.tvTimeToWin);
+            TextView tvDifficulty = v.FindViewById<TextView>(Resource.Id.tvDifficulty);
             tvPlayer.Text = lbp.Name;
             tvTimeToWin.Text = lbp.StringTime;
+            tvDifficulty.Text = lbp.Difficulty;
             return v;
         }
 

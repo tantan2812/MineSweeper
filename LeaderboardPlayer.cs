@@ -19,17 +19,19 @@ namespace MineSweeper
         public string Name { get; set; }
         public int IntTime { get; set; }
         public string StringTime { get; set; }
+        public string Difficulty { get; set; }
 
         /// <summary>
         /// creates a new LeaderboardPlayer
         /// </summary>
         /// <param name="name">name of player</param>
         /// <param name="time">time it took to beat the game</param>
-        public LeaderboardPlayer(string name, int time)
+        public LeaderboardPlayer(string name, int time, string difficulty)
         {
             Name = name;
             IntTime = time;
             SetTimeFormat();
+            Difficulty = difficulty;
         }
 
         /// <summary>

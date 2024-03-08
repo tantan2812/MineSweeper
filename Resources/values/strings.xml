@@ -65,5 +65,10 @@
     <string name="win_click_stat">you won the game in this number of clicks:</string>
     <string name="starting_score">10</string>
     <string name="leaderboard">leaderboard</string>
+    <string name="difficulty">Choose difficulty:</string>
+    <string name="difficulty_info">the difficulty determine the size of the board and the number of mines in it, the higher the difficulty the denser the mines</string>
+    <string name="difficulty_one">Easy</string>
+    <string name="difficulty_two">Intermediate</string>
+    <string name="difficulty_three">Expert</string>
 
 </resources>

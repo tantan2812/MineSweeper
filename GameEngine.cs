@@ -16,9 +16,9 @@ namespace MineSweeper
         private Context Context;
         public Activity Activity;
         private AnimationReceiver myAnimationReceiver;
-        public static readonly int BOMB_NUMBER = Constants.NUMBER_OF_MINES;
-        public static readonly int WIDTH = Constants.SIZE_OF_BOARD_WIDTH;
-        public static readonly int HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT;
+        public static int BOMB_NUMBER { get; set; }
+        public static int WIDTH { get; set; }
+        public static int HEIGHT { get; set; }
         private Board Board { get; set; }
         private PlayerStats PlayerStats { get; set; }
         private SqlDataStats SqlStats { get; set; }
@@ -35,11 +35,12 @@ namespace MineSweeper
         private int NumOfClicks { get; set; }
         private int Score { get; set; }
         private bool IsWon { get; set; }
+        public int Difficulty { get; set; }
 
         /// <summary>
         /// gets the instance of the class, checks it hasnt been created again
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the instance</returns>
         public static GameEngine GetInstance()
         {
             Instance ??= new GameEngine();
@@ -47,11 +48,30 @@ namespace MineSweeper
         }
 
         /// <summary>
-        /// creates the board, start the afk timer and sets parameters to default and handles starting the sql 
+        /// creates the board with the intended difficulty, start the afk timer and sets parameters to default and handles starting the sql 
         /// </summary>
-        /// <param name="context"></param>
+        /// <param name="context">the grid context</param>
         public void CreateGrid(Context context)
         {
+            if (Difficulty == 1)
+            {
+                BOMB_NUMBER = Constants.NUMBER_OF_MINES_1_DIFF;
+                WIDTH = Constants.SIZE_OF_BOARD_WIDTH_1_DIFF;
+                HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT_1_DIFF;
+
+            }
+            else if (Difficulty == 2)
+            {
+                BOMB_NUMBER = Constants.NUMBER_OF_MINES_2_DIFF;
+                WIDTH = Constants.SIZE_OF_BOARD_WIDTH_2_DIFF;
+                HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT_2_DIFF;
+            }
+            else if (Difficulty == 3)
+            {
+                BOMB_NUMBER = Constants.NUMBER_OF_MINES_3_DIFF;
+                WIDTH = Constants.SIZE_OF_BOARD_WIDTH_3_DIFF;
+                HEIGHT = Constants.SIZE_OF_BOARD_HEIGHT_3_DIFF;
+            }
             Context = context;
             Board = new Board(context);
             Board.GenerateFullBoard();
@@ -71,7 +91,7 @@ namespace MineSweeper
         /// gets a cell from the board
         /// </summary>
         /// <param name="position">what cell</param>
-        /// <returns></returns>
+        /// <returns>the specific square</returns>
         public Square GetCellAt(int position)
         {
             int x = position % WIDTH;
@@ -85,7 +105,7 @@ namespace MineSweeper
         /// </summary>
         /// <param name="x">position of cell</param>
         /// <param name="y">position of cell</param>
-        /// <returns></returns>
+        /// <returns>the specific square</returns>
         public Square GetCellAt(int x, int y)
         {
             return Board.Squares[x,y];
@@ -98,7 +118,6 @@ namespace MineSweeper
         {
             int bombNotFound = BOMB_NUMBER;
             int notRevealed = WIDTH * HEIGHT;
-            int flags = 0;
             for (int x = 0; x < WIDTH; x++)
                 for (int y = 0; y < HEIGHT; y++)
                 {
@@ -106,11 +125,9 @@ namespace MineSweeper
                         notRevealed--;
                     if (GetCellAt(x, y).IsFlagged && GetCellAt(x, y) is Mine)
                         bombNotFound--;
-                    if (GetCellAt(x, y).IsFlagged)
-                        flags++;
                 }
 
-            if (bombNotFound == 0 && notRevealed == 0&&flags==10)
+            if (bombNotFound == 0 && notRevealed == 0)
             {
                 if (IsWon == false)
                 {
@@ -207,13 +224,13 @@ namespace MineSweeper
                         Score++;
                     else if (!isFlagged)
                         Score--;
+                    tvScoreNow ??= Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
+                    tvScoreNow.Text = Score.ToString();
                     GetCellAt(x, y).Invalidate();
                     if (GetCellAt(x, y) is Mine)
                     {
                         PlayerStats.MinesFound++;
                         SqlStats.Update(PlayerStats);
-                        tvScoreNow ??= Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
-                        tvScoreNow.Text = Score.ToString();
                     }              
                 }
             }
@@ -222,11 +239,11 @@ namespace MineSweeper
         /// <summary>
         /// starts the animation in the end dialog
         /// </summary>
-        /// <param name="img1"></param>
-        /// <param name="img2"></param>
-        /// <param name="img3"></param>
-        /// <param name="img4"></param>
-        /// <param name="img5"></param>
+        /// <param name="img1">imageview to animate</param>
+        /// <param name="img2">imageview to animate</param>
+        /// <param name="img3">imageview to animate</param>
+        /// <param name="img4">imageview to animate</param>
+        /// <param name="img5">imageview to animate</param>
         protected void StartAnimation(ImageView img1, ImageView img2, ImageView img3, ImageView img4, ImageView img5)
         {
             myAnimationReceiver = new AnimationReceiver(img1, img2, img3, img4, img5);
@@ -259,13 +276,30 @@ namespace MineSweeper
         /// <summary>
         /// takes the time the timer finished in and coverts it to numeric value
         /// </summary>
-        /// <returns></returns>
+        /// <returns>the time in numeric value</returns>
         private int ChronometerToNumericValue()
         {
             long baseTime = chrono.Base;
             long currentElapsedTime = SystemClock.ElapsedRealtime();
             int elapsedTimeInSeconds = (int)((currentElapsedTime - baseTime) / 1000);
             return elapsedTimeInSeconds;
+        }
+
+        /// <summary>
+        /// returns the name of the difficulty 
+        /// </summary>
+        /// <returns></returns>
+        private string DifficultyName()
+        {
+            string diff=string.Empty;
+            if (Difficulty == 1)
+                diff = "Easy";
+            else if (Difficulty == 2)
+                diff = "Intermediate";
+            else
+                diff = "Expert";
+            return diff;
+
         }
 
         /// <summary>
@@ -277,6 +311,7 @@ namespace MineSweeper
             FbData fbd = new FbData();
             hashMap.Put(General.FIELD_NAME, PlayerName);
             hashMap.Put(General.FIELD_WIN_TIME, ChronometerToNumericValue());
+            hashMap.Put(General.FIELD_DIFFICULTY_BOARD, DifficultyName());
             fbd.SetDocument(General.TIMES_COLLECTION, string.Empty, out string id, hashMap);
         }
     }

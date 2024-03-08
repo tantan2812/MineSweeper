@@ -52,7 +52,7 @@ namespace MineSweeper
             LeaderboardPlayer player;
             foreach (DocumentSnapshot document in documents)
             {
-                player = new LeaderboardPlayer(document.GetString(General.FIELD_NAME), (int)document.Get(General.FIELD_WIN_TIME));
+                player = new LeaderboardPlayer(document.GetString(General.FIELD_NAME), (int)document.Get(General.FIELD_WIN_TIME),document.GetString(General.FIELD_DIFFICULTY_BOARD));
                 Adapter.AddGame(player);
             }
         }

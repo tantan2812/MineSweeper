@@ -22,6 +22,7 @@ namespace MineSweeper
         public const int REQUEST_OPEN_ACTIVITY = 1;
         public static int MIN_LENGTH = 3;
         public static int MIN_PWD_LENGTH = 6;
+        public static string DIFFICULTY = "difficulty";
         public const string ACTION_ANIMATE = "com.meitar.action.ANIMATE";
         public const string KEY_FRAME = "frame";
         public const string SP_FILE_NAME = "sp.dat";
@@ -37,6 +38,7 @@ namespace MineSweeper
         public const string FIELD_NAME = "Name";
         public const string FIELD_HOST_NAME = "HostName";
         public const string FIELD_CREATE_TIME = "CreateTime";
+        public const string FIELD_DIFFICULTY_BOARD = "difficulty";
         public const string FIELD_WIN_TIME = "WinTime";
         public const string FIELD_PLAYERS = "Players";
         public const string FIELD_CURRENT_PLAYER = "CurrentPlayer";

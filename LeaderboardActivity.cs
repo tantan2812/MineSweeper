@@ -76,7 +76,7 @@ namespace MineSweeper
                     QuerySnapshot qs = (QuerySnapshot)task.Result;
                     List<LeaderboardPlayer> topPlayers = new List<LeaderboardPlayer>();
                     foreach (DocumentSnapshot document in qs.Documents)
-                        topPlayers.Add(new LeaderboardPlayer((string)(document.Get(General.FIELD_NAME)), (int)document.Get(General.FIELD_WIN_TIME)));
+                        topPlayers.Add(new LeaderboardPlayer((string)document.Get(General.FIELD_NAME), (int)document.Get(General.FIELD_WIN_TIME), (string)document.Get(General.FIELD_DIFFICULTY_BOARD)));
                     topPlayers.Sort((a, b) => a.IntTime.CompareTo(b.IntTime));
                     topPlayers.Take(10).ToList();
                     players.AddGames(topPlayers);

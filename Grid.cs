@@ -45,7 +45,7 @@ namespace MineSweeper
             /// <summary>
             /// size of the board
             /// </summary>
-            public override int Count => Constants.SIZE_OF_BOARD_WIDTH * Constants.SIZE_OF_BOARD_HEIGHT;
+            public override int Count => GameEngine.WIDTH * GameEngine.HEIGHT;
 
             /// <summary>
             /// implement class

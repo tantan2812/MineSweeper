@@ -36,6 +36,7 @@ namespace MineSweeper
             tts = new TextToSpeech(this, this);
             tts.Speak(Constants.TEXT_TO_SPEECH_GAME_START, QueueMode.Flush,null,null);
             GameEngine.GetInstance().PlayerName = Intent.GetStringExtra(General.KEY_NAME);
+            GameEngine.GetInstance().Difficulty = Intent.GetIntExtra(General.DIFFICULTY,1);
         }
 
         /// <summary>
