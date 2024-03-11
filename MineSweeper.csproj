@@ -66,8 +66,12 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DifficultyActivity.cs" />
     <Compile Include="FbData.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="GameActivity.cs" />
+    <Compile Include="GameAdapter.cs" />
     <Compile Include="GameEngine.cs" />
+    <Compile Include="Games.cs" />
+    <Compile Include="GamesActivity.cs" />
     <Compile Include="GameTimer.cs" />
     <Compile Include="General.cs" />
     <Compile Include="Grid.cs" />
@@ -79,6 +83,7 @@
     <Compile Include="Mine.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="NumberTile.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="PlayerStats.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

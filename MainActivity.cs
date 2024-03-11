@@ -17,7 +17,7 @@ namespace MineSweeper
     public class MainActivity : AppCompatActivity, View.IOnClickListener
     {
         TextView tvGoRules, tvGoRulesAnswer, tvCurrent;
-        Button btnGoGame, btnGoStats, btnGoLeaderBoard;
+        Button btnGoGame, btnGoStats, btnGoLeaderBoard, btnMultiplayerGame;
         Thread thread;
 
         /// <summary>
@@ -42,9 +42,11 @@ namespace MineSweeper
             btnGoGame = FindViewById<Button>(Resource.Id.btnGoGame);
             btnGoStats = FindViewById<Button>(Resource.Id.btnGoStats);
             btnGoLeaderBoard = FindViewById<Button>(Resource.Id.btnGoLeaderBoard);
+            btnMultiplayerGame = FindViewById<Button>(Resource.Id.btnMultiplayerGame);
             btnGoGame.SetOnClickListener(this);
             btnGoStats.SetOnClickListener(this);
             btnGoLeaderBoard.SetOnClickListener(this);
+            btnMultiplayerGame.SetOnClickListener(this);
             RegisterForContextMenu(tvGoRules);
             thread = new Thread(new ThreadStart(() => { return; }));
         }
@@ -111,6 +113,18 @@ namespace MineSweeper
                 OpenStatActivitys();
             if (v == btnGoLeaderBoard)
                 OpenLeaderboardActivitys();
+            if (v == btnMultiplayerGame)
+                OpenGamesActivity();
+        }
+
+        /// <summary>
+        /// opens the games activity with the intent of the name of the user
+        /// </summary>
+        private void OpenGamesActivity()
+        {
+            Intent intent = new Intent(this, typeof(GamesActivity));
+            intent.PutExtra(General.KEY_NAME, Intent.GetStringExtra(General.KEY_NAME));
+            StartActivity(intent);
         }
 
         /// <summary>

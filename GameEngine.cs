@@ -19,7 +19,7 @@ namespace MineSweeper
         public static int BOMB_NUMBER { get; set; }
         public static int WIDTH { get; set; }
         public static int HEIGHT { get; set; }
-        private Board Board { get; set; }
+        public Board Board { get; set; }
         private PlayerStats PlayerStats { get; set; }
         private SqlDataStats SqlStats { get; set; }
         private Dialog WinDialog { get; set; }
@@ -28,7 +28,7 @@ namespace MineSweeper
         private ImageView img3;
         private ImageView img4;
         private ImageView img5;
-        private Chronometer chrono;
+        public Chronometer chrono;
         public GameTimer cd;
         private TextView tvScoreNow;
         public string PlayerName { get; set; }
@@ -150,7 +150,7 @@ namespace MineSweeper
         public void ForceEnd()
         {
             cd.Cancel();
-            if(NumOfClicks> 0)
+            if (NumOfClicks > 0)
                 chrono.Stop();
             Board.RevealBoard();
         }
@@ -174,7 +174,7 @@ namespace MineSweeper
                     tvScoreNow = Activity.FindViewById<TextView>(Resource.Id.tvScoreNow);
                 }
                 cd.Cancel();
-                cd = new GameTimer(60000, 1000, (Activity)Context);
+                cd = new GameTimer(180000, 1000, (Activity)Context);
                 cd.Start();
                 if (GetCellAt(x, y) is NumberTile || GetCellAt(x, y) is Mine)
                     NumOfClicks++;
@@ -291,7 +291,7 @@ namespace MineSweeper
         /// <returns></returns>
         private string DifficultyName()
         {
-            string diff=string.Empty;
+            string diff;
             if (Difficulty == 1)
                 diff = "Easy";
             else if (Difficulty == 2)

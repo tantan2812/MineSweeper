@@ -55,12 +55,11 @@ namespace MineSweeper
         /// <returns></returns>
         public int SumOfFoundMines()
         {
-            List<PlayerStats> stats = new List<PlayerStats>();
             int sum = 0;
-            stats = GetStatList();
+            List<PlayerStats> stats = GetStatList();
             foreach (PlayerStats stat in stats)
             {
-                sum = sum + stat.MinesFound;
+                sum += stat.MinesFound;
             }
             return sum;
         }
@@ -71,12 +70,11 @@ namespace MineSweeper
         /// <returns></returns>
         public int SumOfGamesWon()
         {
-            List<PlayerStats> stats= new List<PlayerStats>();
             int sum = 0;
-            stats = GetStatList();
+            List<PlayerStats> stats = GetStatList();
             foreach (PlayerStats stat in stats)
             {
-                sum = sum + stat.GamesWon;
+                sum += stat.GamesWon;
             }
             return sum;
         }
@@ -87,9 +85,8 @@ namespace MineSweeper
         /// <returns></returns>
         public int SumOfGamesPlayed()
         {
-            List<PlayerStats> stats= new List<PlayerStats>();
             int sum = 0;
-            stats = GetStatList();
+            List<PlayerStats> stats = GetStatList();
             foreach (PlayerStats stat in stats)
             {
                 sum += stat.GamesPlayed;
@@ -99,10 +96,12 @@ namespace MineSweeper
 
         public PlayerStats UpdatedPlayerStats()
         {
-            PlayerStats stats = new PlayerStats();
-            stats.MinesFound = SumOfFoundMines();
-            stats.GamesPlayed= SumOfGamesPlayed();
-            stats.GamesWon = SumOfGamesWon();
+            PlayerStats stats = new PlayerStats
+            {
+                MinesFound = SumOfFoundMines(),
+                GamesPlayed = SumOfGamesPlayed(),
+                GamesWon = SumOfGamesWon()
+            };
             return stats;
             
         }

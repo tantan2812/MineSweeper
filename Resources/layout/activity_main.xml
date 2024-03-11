@@ -24,6 +24,14 @@
         android:textColor="@android:color/black"
         android:text="@string/go_game"/>
     <Button
+        android:id="@+id/btnMultiplayerGame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:background="@drawable/gridpicsmall"
+        android:textColor="@android:color/black"
+        android:text="@string/multyplayer_game"/>
+    <Button
         android:id="@+id/btnGoStats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
